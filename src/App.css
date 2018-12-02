@@ -38,14 +38,15 @@
 }
 .div-left {
   display: flex;
-  align-items: left;
+  align-items: flex-start;
   justify-content: flex-start;
+  padding-left: 10px;
 }
 .button {
   background-color: rgb(87, 146, 161); /* Blue */
   border: none;
   color: rgb(87, 146, 161);
-  padding: 16px 32px;
+  padding: 5px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -54,7 +55,7 @@
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
-  border-radius: 10%;
+  border-radius: 100px;
   
 }
 .button1 {
@@ -67,9 +68,10 @@
   color: white;
 }
 .user-profile {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border:  5px solid rgb(255, 255, 255);
+  border-radius: 50%;
   cursor: pointer;
 }
 .user-image {
@@ -79,7 +81,8 @@
   cursor: pointer;
 }
 .follow {
-  padding-top: 15px;
+  padding-top: 8px;
+  padding-left: 100px;
 }
 .cover-div {
   width: 100%;
@@ -94,25 +97,34 @@
   width: 10px;
 }
 .col-space {
-  padding-left: 10px;
+  padding-left: 80px;
 }
 .nav-item {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  padding-top: 30px;
-  padding-right: 20px;
+
+  border-bottom: 2px solid rgb(255, 255, 255);
 }
 .user-info {
   padding-left: 230px;
+  padding-top: 60px;
 }
 .text-center {
   align-content: center
 }
 .nav-item-text {
   cursor: pointer;
+  padding-top: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 .nav-item-text:hover {
   color: rgb(87, 146, 161);
+  border-bottom: 2px solid rgb(87, 146, 161);
+}
+.nav-item-text-click {
+  color: rgb(87, 146, 161);
+  border-bottom: 2px solid rgb(87, 146, 161);
 }
 body {
   background: #e6ecf0;
@@ -121,7 +133,6 @@ body {
 .list-li {
   background-color: white;
   padding: 5px;
-
   list-style: none;
 }
 .post-name {
@@ -141,4 +152,10 @@ body {
 .like-icon:hover {
   color: rgb(255, 30, 0);
 }
-
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.post-space {
+  padding-left: 10px;
+}
