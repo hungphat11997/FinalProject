@@ -209,10 +209,3 @@ body {
   color: black;
   cursor: pointer;
 }
-.nav-item a{
-  color: black;
-  text-decoration: unset;
-}
-.nav-item-text-click a{
-  color: rgb(87, 146, 161);
-}

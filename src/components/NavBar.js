@@ -13,7 +13,6 @@ onClickTab = (value) => {
 
 
     render() {
-        console.log(this.props.tab);
         return(
       <Navbar>
           <Row className="show-grid">
@@ -36,10 +35,8 @@ onClickTab = (value) => {
         
         <div onClick={() => this.onClickTab("following")} 
         class={this.props.tab === "following" ? "nav-item nav-item-text nav-item-text-click"
-        : "nav-item nav-item-text"}>
-        {/* <a href="/following"> */}
+        : "nav-item nav-item-text"}>   
         <p >Following<p class="text-center">200</p></p>
-        {/* </a> */}
         </div>
 
         <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
@@ -52,9 +49,7 @@ onClickTab = (value) => {
           <button type="submit" class="button button1">Edit Profile</button>
           </div>
         </Col>
-      </Row>
-      
-      
+      </Row>    
     </Navbar>)
     }
 }

@@ -8,11 +8,11 @@ import { updateTab } from '../actions/updateTab';
 import { bindActionCreators } from 'redux';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
-class Following extends Component {
+class Followers extends Component {
   render() {
     return (
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
-      this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
+      this.props.component === "following" ? <Redirect to="/following"></Redirect> :
         <div class="content">
           <div>
             <div class="cover-div">
@@ -50,7 +50,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -81,7 +81,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -113,7 +113,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -147,7 +147,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -178,7 +178,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -210,7 +210,7 @@ class Following extends Component {
                           </div>
 
                           <div class="follow-name">
-                            <a> Bill Gate</a>
+                            <a> Park Hang Seo</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
@@ -266,4 +266,4 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateComponent: updateComponent,
   }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Following);
+export default connect(mapStateToProps, mapDispatchToProps)(Followers);

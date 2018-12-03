@@ -13,6 +13,7 @@ class HomePage extends Component {
     console.log(this.props.component)
     return (
       this.props.component === "following" ? <Redirect to="/following"></Redirect> :
+      this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
         <div class="content">
           <div>
             <div class="cover-div">
