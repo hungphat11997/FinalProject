@@ -7,9 +7,11 @@ import { Provider} from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import coverImageReducer from './reducers/coverimage-reducer';
 import tabReducer from './reducers/tab-reducer';
+import componentReducer from './reducers/component-reducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
+    component: componentReducer,
   })
 
 // Create store with reducers
