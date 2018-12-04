@@ -42,6 +42,11 @@
   justify-content: flex-start;
   padding-left: 10px;
 }
+.div-right {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
 .button {
   background-color: rgb(87, 146, 161); /* Blue */
   border: none;
@@ -106,7 +111,7 @@
   border-bottom: 2px solid rgb(255, 255, 255);
 }
 .user-info {
-  padding-left: 230px;
+
   padding-top: 60px;
 }
 .text-center {
@@ -161,6 +166,44 @@ body {
 .post-space {
   padding-left: 10px;
 }
+
+.post-content {
+  cursor: pointer;
+}
+.post-content:hover {
+  background-color: whitesmoke;
+}
+.img-post {
+  padding-left: 10px;
+}
+.user-image-post {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.post-area {
+  background-color: #E8F5FD;
+}
+.txt-area {
+  width: 100%;
+  border-radius: 3px;
+  border: 2px solid #c9def0;
+  display: block;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-height: 80px;
+  overflow: hidden;
+  vertical-align: top;
+}
+.ReactModal__Body--open {
+  overflow-y: hidden;
+}
+.cmt-image {
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
 
 .follow-li{
   background-color:white;
