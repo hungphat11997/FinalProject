@@ -42,12 +42,22 @@ onClickTab = (value) => {
         <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
         <p >Followers<p class="text-center">20000</p></p>
         </div>
+
+        
+
         </div>
         </Col>
         <Col xsHidden md={4} >
             <div class="div-center follow">
-          <button type="submit" class="button button1">Edit Profile</button>
+          {/* <button type="submit" class="button button1">Edit Profile</button> */}
+          <div onClick={() => this.onClickTab("editprofile")} 
+        class={this.props.tab === "editprofile" ? "nav-item nav-item-text nav-item-text-click"
+        : "nav-item nav-item-text"}>   
+        <p >Edit Profile<p class="text-center"></p></p>
+        </div>
           </div>
+
+          
         </Col>
       </Row>    
     </Navbar>)

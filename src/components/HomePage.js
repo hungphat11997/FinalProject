@@ -27,6 +27,7 @@ class HomePage extends Component {
     return (
       this.props.component === "following" ? <Redirect to="/following"></Redirect> :
       this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
+      this.props.component === "editprofile" ? <Redirect to="/editprofile"></Redirect> :
         <div class="content">
           <div>
             <div class="cover-div">
