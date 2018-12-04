@@ -34,7 +34,7 @@ class HomePage extends Component {
           src={this.props.coverImage.cover}
         />
         </div>
-      <NavBar tab={this.props.tab} onUpdateTab={this.props.onUpdateTab}/>
+      <NavBar component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
       
       <Row className="show-grid">
         <Col xs={6} md={3}>
