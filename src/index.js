@@ -9,11 +9,13 @@ import coverImageReducer from './reducers/coverimage-reducer';
 import tabReducer from './reducers/tab-reducer';
 import dialogReducer from './reducers/dialog-reducer';
 import commentReducer from './reducers/commentReducer';
+import componentReducer from './reducers/component-reducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
     dialog: dialogReducer,
     comment: commentReducer,
+    component: componentReducer,
   })
 
 // Create store with reducers

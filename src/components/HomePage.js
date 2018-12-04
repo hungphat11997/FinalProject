@@ -4,11 +4,14 @@ import { Grid, Row, Col, Button, Modal } from 'react-bootstrap';
 import Image from 'react-image-resizer';
 import { connect } from 'react-redux';
 import { updateCoverImage } from '../actions/updateCoverImage';
-import {updateTab } from '../actions/updateTab';
+import { updateTab } from '../actions/updateTab';
 import { bindActionCreators } from 'redux';
 import Textarea from 'react-textarea-autosize';
 import { updateDialog } from '../actions/updateDialog';
 import { updateComment } from '../actions/updateComment';
+import { updateComponent } from '../actions/updateComponent';
+import { Redirect } from 'react-router-dom';
+
 class HomePage extends Component {
   openModal = () => {
     this.props.onUpdateDialog(true)
@@ -20,10 +23,12 @@ class HomePage extends Component {
     this.props.onUpdateComment(!this.props.comment)
   }
   render() {
-    
+
     return (
+      this.props.component === "following" ? <Redirect to="/following"></Redirect> :
+      this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
         <div class="content">
-        <div>
+          <div>
             <div class="cover-div">
             <img class="cover-image"
           src={this.props.coverImage.cover}
@@ -166,21 +171,14 @@ class HomePage extends Component {
               <Row className="show-grid">
               <Col xs={6} md={1}>
               <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+
               </Col>
-              <Col xs={6} md={11}>
-              <div class="post-space">
-              <p class="post-name">ABC</p>
-              <p>This is my 1st post</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              <i class="fa fa-comments-o icon-size cmt-icon"> 23</i>
-              <i class="fa fa-share-alt icon-size share-icon">10</i>
-              <i class="fa fa-heart-o icon-size like-icon">50</i>
-              </div>
+              <Col xsHidden md={4}>
+                <div class="col-space">
+                  <code>{'<Col xsHidden md={4} />'}</code>
+                </div>
               </Col>
-              </Row>
-              </li>
-              <br/>
-          </ul>
+            </Row>
           </div>
         </Col>
         <Col xsHidden md={4}>
@@ -192,6 +190,7 @@ class HomePage extends Component {
       </div>
 </div>
   
+
     )
   }
 }
@@ -202,6 +201,7 @@ const mapStateToProps = (state) => {
     tab: state.tab,
     dialog: state.dialog,
     comment: state.comment,
+    component: state.component,
   }
 }
 
@@ -211,6 +211,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateTab: updateTab,
     onUpdateDialog: updateDialog,
     onUpdateComment: updateComment,
+    onUpdateComponent: updateComponent,
   }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps) (HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
