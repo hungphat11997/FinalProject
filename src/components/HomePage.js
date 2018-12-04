@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import NavBar from './NavBar';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Modal } from 'react-bootstrap';
 import Image from 'react-image-resizer';
 import { connect } from 'react-redux';
 import { updateCoverImage } from '../actions/updateCoverImage';
 import {updateTab } from '../actions/updateTab';
 import { bindActionCreators } from 'redux';
+import Textarea from 'react-textarea-autosize';
+import { updateDialog } from '../actions/updateDialog';
+import { updateComment } from '../actions/updateComment';
 class HomePage extends Component {
+  openModal = () => {
+    this.props.onUpdateDialog(true)
+  }
+  closeModal = () => {
+    this.props.onUpdateDialog(false)
+  }
+  onClickComment = () => {
+    this.props.onUpdateComment(!this.props.comment)
+  }
   render() {
+    
     return (
         <div class="content">
         <div>
@@ -20,16 +33,45 @@ class HomePage extends Component {
       
       <Row className="show-grid">
         <Col xs={6} md={3}>
-        <div class="col-space user-info">
+        <Row className="show-grid">
+        <Col xs={6} md={7}>
+        </Col>
+        <Col xs={6} md={5}>
+        <div class="user-info">
          <p> Name: ABC</p>
          <p> Age: 20</p>
          <p> Phone: 123456</p>
           </div>
         </Col>
+        </Row>
+        
+        </Col>
         <Col xs={6} md={5}>
         <div class="col-space">
+        
           <ul>
-              <li class="list-li">
+          {/* <li class="post-area list-li">
+        <Row className="show-grid">
+              <Col xs={6} md={1}>
+              <div class="img-post">
+              <img class="user-image-post" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              </div>
+              </Col>
+              <Col xs={6} md={11}>
+              <div class="post-space">
+              <Textarea class="txt-area" autoFocus
+              placeHolder="What're you thinking?"
+              />
+              </div>
+              <div class="div-center follow">
+                <button class="button button1">Post</button>
+                </div>
+              </Col>
+              </Row>
+    </li> */}
+    <Modal show={this.props.dialog} onHide={() =>this.closeModal()}>
+    <Modal.Header>
+    <div>
               <Row className="show-grid">
               <Col xs={6} md={1}>
               <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
@@ -40,15 +82,69 @@ class HomePage extends Component {
               <p class="post-name">ABC</p>
               <p>This is my 1st post</p>
               <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              <i class="fa fa-comments-o icon-size cmt-icon"> 23</i>
+              <i onClick={() => this.onClickComment()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
               <i class="fa fa-share-alt icon-size share-icon">10</i>
               <i class="fa fa-heart-o icon-size like-icon">50</i>
+              <br/>
+              {this.props.comment === true ?
+              <div>
+              <img class="cmt-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              <Textarea class="txt-area" autoFocus
+              placeHolder="What're you thinking?"
+              />
+              <div class="div-right">
+              <button>Send</button>
+              </div>
+              </div>:<div></div>
+              }
+              </div>
+              </Col>
+              </Row>
+              </div>
+          </Modal.Header>
+          <Modal.Body>
+            <ul>
+          <li class="list-li">
+              <Row className="show-grid">
+              <Col xs={6} md={1}>
+              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              </Col>
+              
+              <Col xs={6} md={11}>
+              <div class="post-space">
+              <p class="post-name">ABC</p>
+              <p>hello</p>
               </div>
               </Col>
               </Row>
               </li>
+              </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() =>this.closeModal()}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+              <li onClick={() => this.openModal()} class="list-li post-content">
+              <Row className="show-grid">
+              <Col xs={6} md={1}>
+              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              </Col>
+              
+              <Col xs={6} md={11}>
+              <div class="post-space">
+              <p class="post-name">ABC</p>
+              <p>This is my 1st post</p>
+              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              <i onClick={() => this.openModal()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
+              <i onClick class="fa fa-share-alt icon-size share-icon">10</i>
+              <i onClick class="fa fa-heart-o icon-size like-icon">50</i>
+              </div>
+              </Col>
+              </Row>
+              </li>
+
               <br/>
-              <li class="list-li">
+              <li class="list-li post-content">
               <Row className="show-grid">
               <Col xs={6} md={1}>
               <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
@@ -66,7 +162,7 @@ class HomePage extends Component {
               </Row>
               </li>
               <br/>
-              <li class="list-li">
+              <li class="list-li post-content">
               <Row className="show-grid">
               <Col xs={6} md={1}>
               <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
@@ -95,6 +191,7 @@ class HomePage extends Component {
       </Row>
       </div>
 </div>
+  
     )
   }
 }
@@ -103,13 +200,17 @@ const mapStateToProps = (state) => {
   return {
     coverImage: state.coverImage,
     tab: state.tab,
+    dialog: state.dialog,
+    comment: state.comment,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     onUpdateCoverImage: updateCoverImage,
-    onUpdateTab: updateTab
+    onUpdateTab: updateTab,
+    onUpdateDialog: updateDialog,
+    onUpdateComment: updateComment,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps) (HomePage);

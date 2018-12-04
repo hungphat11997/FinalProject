@@ -7,9 +7,13 @@ import { Provider} from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import coverImageReducer from './reducers/coverimage-reducer';
 import tabReducer from './reducers/tab-reducer';
+import dialogReducer from './reducers/dialog-reducer';
+import commentReducer from './reducers/commentReducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
+    dialog: dialogReducer,
+    comment: commentReducer,
   })
 
 // Create store with reducers
