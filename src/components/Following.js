@@ -13,6 +13,7 @@ class Following extends Component {
     return (
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
       this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
+      this.props.component === "editprofile" ? <Redirect to="/editprofile"></Redirect> :
         <div class="content">
           <div>
             <div class="cover-div">
