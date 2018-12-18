@@ -252,3 +252,16 @@ body {
   color: black;
   cursor: pointer;
 }
+.h-white {
+color: rgb(255, 255, 255);
+}
+.input-login {
+  width: 400px;
+}
+.input-register {
+  width: 300px;
+}
+.create-account-link {
+  cursor: pointer;
+  color: rgb(65, 170, 240);
+}
