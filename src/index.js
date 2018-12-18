@@ -15,6 +15,9 @@ import logininputReducer from './reducers/logininputReducer';
 import registerReducer from './reducers/registerReducer';
 import registerpbinputReducer from './reducers/registerpbinputReducer';
 import registerconfinputReducer from './reducers/registerconfinputReducer';
+import profileReducer from './reducers/profileReducer';
+import mynewfeedReducer from './reducers/mynewfeedReducer';
+import pbkeyReducer from './reducers/pbkeyReducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
@@ -26,6 +29,9 @@ const rootReducer = combineReducers({
     register: registerReducer,
     registerpbinput: registerpbinputReducer,
     registerconfinput: registerconfinputReducer,
+    profile: profileReducer,
+    mynewfeed: mynewfeedReducer,
+    pbkey: pbkeyReducer,
   })
 
 // Create store with reducers

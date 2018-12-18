@@ -23,6 +23,7 @@ import { updateRegister } from '../actions/updateRegister';
 import Register from './Register';
 import { updateRegisterPBInput } from '../actions/updateRegisterPBInput';
 import { updateRegisterConfInput } from '../actions/updateRegisterConfInput';
+import { updatePBKey } from '../actions/updatePBKey';
 
 const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
@@ -38,9 +39,8 @@ class Login extends React.Component {
     onLogin = () => {
         try {
             const key = Keypair.fromSecret(this.props.logininput);
-            fetch(`localhost:3001/data/GBAZVE7HITKLHDLBSP6TTHS3YQ4V26NODNYZFEIEIM72OBJ7PGMCQKKR`)
-            .then(res => console.log(res.json()));
             this.props.onUpdateSCKey(this.props.logininput);
+            this.props.onUpdatePBKey(key.publicKey());
             //tx.account = key.publicKey();
           }
           catch(err) {
@@ -53,6 +53,7 @@ class Login extends React.Component {
     }
     render() {
 
+      
         return(
             this.props.sckey !== null ? <Redirect to="/"></Redirect> :
             <div>
@@ -84,6 +85,7 @@ class Login extends React.Component {
 const mapStateToProps = (state) => {
     return {
       sckey: state.sckey,
+      pbkey: state.pbkey,
       logininput: state.logininput,
       register: state.register,
       registerpbinput: state.registerpbinput,
@@ -98,6 +100,7 @@ const mapStateToProps = (state) => {
       onUpdateRegister: updateRegister,
       onUpdateRegisterPBInput: updateRegisterPBInput,
       onUpdateRegisterConfInput: updateRegisterConfInput,
+      onUpdatePBKey: updatePBKey,
     }, dispatch);
   }
   export default connect(mapStateToProps, mapDispatchToProps)(Login);
