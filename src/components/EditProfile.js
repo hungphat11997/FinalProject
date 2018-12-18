@@ -61,10 +61,10 @@ class EditProfile extends Component {
                           </Col>
                         </FormGroup>
                         <FormGroup row>
-                          <Label for="Image" sm={4}>Image</Label>
+                          <Label for="Image" sm={4}>Upload Image</Label>
                           <Col sm={4} md="4">
                             <InputGroup>
-                            <input id="image" type="file" name="image"/>
+                            <input id="picture" type="file" name="picture"/>
                             </InputGroup>
                           </Col>
                         </FormGroup>
@@ -75,7 +75,7 @@ class EditProfile extends Component {
 
                     <CardFooter>
                       <Button type="submit" size="sm" sm={2} color="success"><i className="fa fa-save" />Save</Button>{' '}
-                      <Button type="reset" size="sm" color="danger"><i className="fa fa-ban" /> Reset</Button>
+                      <Button type="reset" size="sm" color="danger"><i className="fa fa-ban" /> Cancel</Button>
                     </CardFooter>
                 <br></br>
                   </Card>
