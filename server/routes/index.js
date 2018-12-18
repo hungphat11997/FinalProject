@@ -214,7 +214,7 @@ router.get("/post", function (req, res) {
   var seq = 0
   const tx = {
     version: 1,
-    account: v1.publicKey,
+    account: "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S",
     sequence: 0,
     memo: Buffer.alloc(0),
     operation: 'post',
@@ -222,21 +222,22 @@ router.get("/post", function (req, res) {
       keys: []},
   }
   fetch(
-      `https://komodo.forest.network/tx_search?query=%22account=%27${v1.publicKey}%27%22`
+      `https://komodo.forest.network/tx_search?query=%22account=%27GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S%27%22`
     )
     .then((res) => res.json())
     .then((res) => {
       res.result.txs.map(tx => {
         var buf = new Buffer.from(tx.tx, "base64");
         var decodedTx = v1.decode(buf);
-        if (decodedTx.account === v1.publicKey) seq++;
+        if (decodedTx.account === "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S") seq++;
       })
     })
     .then(() => {
-      tx.params.content = Buffer.from("Hello 789999", 'utf8');
+      tx.params.content = Buffer.from("I'm phucnnh", 'utf8');
       tx.sequence = seq + 1
-      v1.sign(tx, v1.secretKey);
+      v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
       var txHash = '0x' + v1.encode(tx).toString('hex')
+      //console.log(txHash)
       fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash).then((res) => {})
     })
 
@@ -248,7 +249,7 @@ router.get("/post", function (req, res) {
     var seq = 0
   const tx = {
     version: 1,
-    account: v1.publicKey,
+    account: "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S",
     sequence: 0,
     memo: Buffer.alloc(0),
     operation: 'update_account',
@@ -258,20 +259,20 @@ router.get("/post", function (req, res) {
     },
   }
   fetch(
-      `https://komodo.forest.network/tx_search?query=%22account=%27${v1.publicKey}%27%22`
+      `https://komodo.forest.network/tx_search?query=%22account=%27GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S%27%22`
     )
     .then((res) => res.json())
     .then((res) => {
       res.result.txs.map(tx => {
         var buf = new Buffer.from(tx.tx, "base64");
         var decodedTx = v1.decode(buf);
-        if (decodedTx.account === v1.publicKey) seq++;
+        if (decodedTx.account === "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S") seq++;
       })
     })
     .then(() => {
-      tx.params.value = Buffer.from("PhatNH", 'utf8');
+      tx.params.value = Buffer.from("Phúc VNG", 'utf8');
       tx.sequence = seq + 1
-      v1.sign(tx, v1.secretKey);
+      v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
       var txHash = '0x' + v1.encode(tx).toString('hex')
       fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash)
     })

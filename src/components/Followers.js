@@ -66,9 +66,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                        
                       </Row>
                     </div>
                   </Col>
@@ -97,9 +95,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                        
                       </Row>
                     </div>
 
@@ -129,9 +125,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                        
                       </Row>
                     </div>
 
@@ -163,9 +157,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
                   </Col>
@@ -194,9 +186,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
 
@@ -226,9 +216,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
 
