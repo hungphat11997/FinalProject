@@ -12,6 +12,8 @@ import { updateComment } from '../actions/updateComment';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
 import { updateSCKey } from '../actions/updateSCKey';
+import { updateProfile } from '../actions/updateProfile';
+import { updateMyNewfeed } from '../actions/updateMyNewfeed';
 
 class HomePage extends Component {
   openModal = () => {
@@ -24,6 +26,43 @@ class HomePage extends Component {
     this.props.onUpdateComment(!this.props.comment)
   }
   render() {
+    //profile
+    fetch(`http://localhost:3001/data/${this.props.pbkey}`)
+      .then(res => res.json())
+      .then(res => this.props.profile.name === "" && this.props.profile.seq === 0 && this.props.profile.balance === 0
+       ? this.props.onUpdateProfile({name: res.name, seq: res.sequence, balance: res.balance}):null);
+
+    //mynewfeed
+    fetch(`http://localhost:3001/mynewfeed/${this.props.pbkey}`)
+      .then(res => res.json())
+      .then(res => this.props.mynewfeed.newfeed.length === 0 ? this.props.onUpdateMyNewfeed({newfeed: res.newfeed}): null);
+
+      const myNewfeedList = Object.keys(this.props.mynewfeed.newfeed).map((i) =>
+      <div>
+      <li onClick={() => this.openModal()} class="list-li post-content">
+              <Row className="show-grid">
+              <Col xs={6} md={1}>
+              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              </Col>
+              
+              <Col xs={6} md={11}>
+              <div class="post-space">
+              <p class="post-name div-left">{this.props.profile.name}</p>
+              <p class="div-left">{this.props.mynewfeed.newfeed[i]}</p>
+              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              <div class="div-left">
+              <i onClick={() => this.openModal()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
+              <i onClick class="fa fa-share-alt icon-size share-icon">10</i>
+              <i onClick class="fa fa-heart-o icon-size like-icon">50</i>
+              </div>
+              </div>
+              </Col>
+              </Row>
+              </li>
+              <br/>
+              </div>
+      
+    )
     return (
       this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "following" ? <Redirect to="/following"></Redirect> :
@@ -41,13 +80,13 @@ class HomePage extends Component {
       <Row className="show-grid">
         <Col xs={6} md={3}>
         <Row className="show-grid">
-        <Col xs={6} md={7}>
+        <Col xs={6} md={6}>
         </Col>
-        <Col xs={6} md={5}>
+        <Col xs={6} md={6}>
         <div class="user-info">
-         <p> Name: ABC</p>
-         <p> Age: 20</p>
-         <p> Phone: 123456</p>
+        <div class="div-left"><p> Name: <b>{this.props.profile.name}</b></p></div>
+        <div class="div-left"><p> Sequence: <b>{this.props.profile.seq}</b></p></div>
+        <div class="div-left"><p> Balance: <b>{this.props.profile.balance}</b></p></div>
           </div>
         </Col>
         </Row>
@@ -55,8 +94,7 @@ class HomePage extends Component {
         </Col>
         <Col xs={6} md={5}>
         <div class="col-space">
-        
-          <ul>
+
           {/* <li class="post-area list-li">
         <Row className="show-grid">
               <Col xs={6} md={1}>
@@ -111,7 +149,7 @@ class HomePage extends Component {
           </Modal.Header>
           <Modal.Body>
             <ul>
-          <li class="list-li">
+            <li class="list-li">
               <Row className="show-grid">
               <Col xs={6} md={1}>
               <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
@@ -119,48 +157,27 @@ class HomePage extends Component {
               
               <Col xs={6} md={11}>
               <div class="post-space">
-              <p class="post-name">ABC</p>
-              <p>hello</p>
+              <p class="post-name">{this.props.profile.name}</p>
+              <p>hell</p>
               </div>
               </Col>
               </Row>
-              </li>
+              </li> 
               </ul>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() =>this.closeModal()}>Close</Button>
           </Modal.Footer>
         </Modal>
-              <li onClick={() => this.openModal()} class="list-li post-content">
-              <Row className="show-grid">
-              <Col xs={6} md={1}>
-              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              </Col>
               
-              <Col xs={6} md={11}>
-              <div class="post-space">
-              <p class="post-name div-left">ABC</p>
-              <p class="div-left">This is my 1st post</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              <div class="div-left">
-              <i onClick={() => this.openModal()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
-              <i onClick class="fa fa-share-alt icon-size share-icon">10</i>
-              <i onClick class="fa fa-heart-o icon-size like-icon">50</i>
-              </div>
-              </div>
-              </Col>
-              </Row>
-              </li>
-
-              <br/>
-              
-              
+          <ul>
+            {myNewfeedList}
           </ul>
           </div>
         </Col>
         <Col xsHidden md={4}>
         <div class="col-space">
-          <code>{'<Col xsHidden md={4} />'}</code>
+
           </div>
         </Col>
       </Row>
@@ -180,6 +197,9 @@ const mapStateToProps = (state) => {
     comment: state.comment,
     component: state.component,
     sckey: state.sckey,
+    pbkey: state.pbkey,
+    profile: state.profile,
+    mynewfeed: state.mynewfeed,
   }
 }
 
@@ -191,6 +211,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateComment: updateComment,
     onUpdateComponent: updateComponent,
     onUpdateSCKey: updateSCKey,
+    onUpdateProfile: updateProfile,
+    onUpdateMyNewfeed: updateMyNewfeed,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

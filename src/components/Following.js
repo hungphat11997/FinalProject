@@ -27,14 +27,20 @@ class Following extends Component {
 
 
             <Col xs={6} md={3}>
-              <div class="col-space user-info">
-                <p> Name: ABC</p>
-                <p> Age: 20</p>
-                <p> Phone: 123456</p>
-              </div>
+            <Row className="show-grid">
+        <Col xs={6} md={6}>
+        </Col>
+        <Col xs={6} md={6}>
+        <div class="user-info">
+        <div class="div-left"><p> Name: <b>{this.props.profile.name}</b></p></div>
+        <div class="div-left"><p> Sequence: <b>{this.props.profile.seq}</b></p></div>
+        <div class="div-left"><p> Balance: <b>{this.props.profile.balance}</b></p></div>
+          </div>
+        </Col>
+        </Row>
             </Col>
 
-            <Col xs={6} md={8}>
+            <Col xs={6} md={9}>
               <div class="follow-list">
                 <Row>
 
@@ -196,8 +202,6 @@ class Following extends Component {
 
                   </Col>
 
-
-
                   <Col Col xs={6} md={4}>
                     <div class="follow-li ">
                       <div class="cover-div-small">
@@ -207,47 +211,25 @@ class Following extends Component {
                       </div>
                       <Row>
                         <Col Col xs={6} md={5}>
-
                           <div class="navbar-brand">
                             <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
                           </div>
-
                           <div class="follow-name">
                             <a> Bill Gate</a>
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
                           <button type="submit" class="button-follow">follow</button>
-
                         </Col>
                         <Col Col xs={6} md={2}>
                           <i class="fa ellipsis-icon">&#xf142;</i>
                         </Col>
                       </Row>
                     </div>
-
                   </Col>
                 </Row>
-
-
-
-
-
-
-
-
-
-
-
-
               </div>
             </Col>
-
-
-
-
-
-
           </div>
         </div>
     )
@@ -260,6 +242,7 @@ const mapStateToProps = (state) => {
     tab: state.tab,
     component: state.component,
     sckey: state.sckey,
+    profile: state.profile,
   }
 }
 
