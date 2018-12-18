@@ -63,12 +63,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                      
                       </Row>
                     </div>
                   </Col>
@@ -94,12 +92,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
 
@@ -126,12 +122,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                        
                       </Row>
                     </div>
 
@@ -160,12 +154,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                        
                       </Row>
                     </div>
                   </Col>
@@ -191,12 +183,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
 
@@ -219,11 +209,9 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">Unfollow</button>
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
-                        </Col>
+                       
                       </Row>
                     </div>
                   </Col>
