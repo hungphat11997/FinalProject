@@ -61,17 +61,10 @@ class EditProfile extends Component {
                           </Col>
                         </FormGroup>
                         <FormGroup row>
-                          <Label for="age" sm={4}>Age</Label>
+                          <Label for="Image" sm={4}>Image</Label>
                           <Col sm={4} md="4">
                             <InputGroup>
-                              <Input type="text" id="age" name="age" placeholder="Age"/>
-                            </InputGroup>
-                          </Col>
-                        </FormGroup><FormGroup row>
-                          <Label for="phone" sm={4}>Phone</Label>
-                          <Col sm={4} md="4">
-                            <InputGroup>
-                              <Input type="text" id="phone" name="phone" placeholder="Phone"/>
+                            <input id="image" type="file" name="image"/>
                             </InputGroup>
                           </Col>
                         </FormGroup>
