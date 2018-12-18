@@ -22,6 +22,7 @@ import { updateTab } from '../actions/updateTab';
 import { bindActionCreators } from 'redux';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
+import { updateSCKey } from '../actions/updateSCKey';
 class EditProfile extends Component {
   render() {
     return (
@@ -99,6 +100,7 @@ const mapStateToProps = (state) => {
     coverImage: state.coverImage,
     tab: state.tab,
     component: state.component,
+    sckey: state.sckey,
   }
 }
 
@@ -107,6 +109,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCoverImage: updateCoverImage,
     onUpdateTab: updateTab,
     onUpdateComponent: updateComponent,
+    onUpdateSCKey: updateSCKey,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

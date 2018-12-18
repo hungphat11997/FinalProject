@@ -8,9 +8,11 @@ import { updateTab } from '../actions/updateTab';
 import { bindActionCreators } from 'redux';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
+import { updateSCKey } from '../actions/updateSCKey';
 class Following extends Component {
   render() {
     return (
+      this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
       this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
       this.props.component === "editprofile" ? <Redirect to="/editprofile"></Redirect> :
@@ -257,6 +259,7 @@ const mapStateToProps = (state) => {
     coverImage: state.coverImage,
     tab: state.tab,
     component: state.component,
+    sckey: state.sckey,
   }
 }
 
@@ -265,6 +268,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCoverImage: updateCoverImage,
     onUpdateTab: updateTab,
     onUpdateComponent: updateComponent,
+    onUpdateSCKey: updateSCKey,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Following);

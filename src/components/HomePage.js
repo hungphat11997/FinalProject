@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import NavBar from './NavBar';
 import { Grid, Row, Col, Button, Modal } from 'react-bootstrap';
 import Image from 'react-image-resizer';
-import { connect } from 'react-redux';
 import { updateCoverImage } from '../actions/updateCoverImage';
 import { updateTab } from '../actions/updateTab';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Textarea from 'react-textarea-autosize';
 import { updateDialog } from '../actions/updateDialog';
 import { updateComment } from '../actions/updateComment';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
+import { updateSCKey } from '../actions/updateSCKey';
 
 class HomePage extends Component {
   openModal = () => {
@@ -23,8 +24,8 @@ class HomePage extends Component {
     this.props.onUpdateComment(!this.props.comment)
   }
   render() {
-
     return (
+      this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "following" ? <Redirect to="/following"></Redirect> :
       this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
       this.props.component === "editprofile" ? <Redirect to="/editprofile"></Redirect> :
@@ -138,54 +139,22 @@ class HomePage extends Component {
               
               <Col xs={6} md={11}>
               <div class="post-space">
-              <p class="post-name">ABC</p>
-              <p>This is my 1st post</p>
+              <p class="post-name div-left">ABC</p>
+              <p class="div-left">This is my 1st post</p>
               <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              <div class="div-left">
               <i onClick={() => this.openModal()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
               <i onClick class="fa fa-share-alt icon-size share-icon">10</i>
               <i onClick class="fa fa-heart-o icon-size like-icon">50</i>
+              </div>
               </div>
               </Col>
               </Row>
               </li>
 
               <br/>
-              <li class="list-li post-content">
-              <Row className="show-grid">
-              <Col xs={6} md={1}>
-              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              </Col>
-              <Col xs={6} md={11}>
-              <div class="post-space">
-              <p class="post-name">ABC</p>
-              <p>This is my 1st post</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              <i class="fa fa-comments-o icon-size cmt-icon"> 23</i>
-              <i class="fa fa-share-alt icon-size share-icon">10</i>
-              <i class="fa fa-heart-o icon-size like-icon">50</i>
-              </div>
-              </Col>
-              </Row>
-              </li>
-              <br/>
-              <li class="list-li post-content">
-              <Row className="show-grid">
-              <Col xs={6} md={1}>
-              <img class="user-image" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              </Col>
-              <Col xs={6} md={11}>
-              <div class="post-space">
-              <p class="post-name">ABC</p>
-              <p>This is my 1st post</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              <i class="fa fa-comments-o icon-size cmt-icon"> 23</i>
-              <i class="fa fa-share-alt icon-size share-icon">10</i>
-              <i class="fa fa-heart-o icon-size like-icon">50</i>
-              </div>
-              </Col>
-              </Row>
-              </li>
-              <br/>
+              
+              
           </ul>
           </div>
         </Col>
@@ -210,6 +179,7 @@ const mapStateToProps = (state) => {
     dialog: state.dialog,
     comment: state.comment,
     component: state.component,
+    sckey: state.sckey,
   }
 }
 
@@ -220,6 +190,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateDialog: updateDialog,
     onUpdateComment: updateComment,
     onUpdateComponent: updateComponent,
+    onUpdateSCKey: updateSCKey,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
