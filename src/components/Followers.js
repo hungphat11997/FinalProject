@@ -66,9 +66,8 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
+
                       </Row>
                     </div>
                   </Col>
@@ -97,9 +96,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
                       </Row>
                     </div>
 
@@ -129,9 +126,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
                       </Row>
                     </div>
 
@@ -163,9 +158,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
                       </Row>
                     </div>
                   </Col>
@@ -194,9 +187,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
                       </Row>
                     </div>
 
@@ -226,9 +217,7 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
-                        <Col Col xs={6} md={2}>
-                          
-                        </Col>
+
                       </Row>
                     </div>
 

@@ -63,12 +63,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
                           
                         </Col>
+
                       </Row>
                     </div>
                   </Col>
@@ -94,12 +96,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
                           
                         </Col>
+
                       </Row>
                     </div>
 
@@ -126,12 +130,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
                           
                         </Col>
+
                       </Row>
                     </div>
 
@@ -160,12 +166,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
                           
                         </Col>
+
                       </Row>
                     </div>
                   </Col>
@@ -191,12 +199,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
                           
                         </Col>
+
                       </Row>
                     </div>
 
@@ -219,11 +229,14 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">unfollow</button>
                         </Col>
                         <Col Col xs={6} md={2}>
                           
+
                         </Col>
+                       
                       </Row>
                     </div>
                   </Col>

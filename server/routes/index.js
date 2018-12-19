@@ -206,6 +206,7 @@ router.post("/post", function (req, res) {
       tx.sequence = seq + 1
       v1.sign(tx, data.sck);
       var txHash = '0x' + v1.encode(tx).toString('hex')
+      //console.log(txHash)
       fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash).then((res) => {})
     })
 
