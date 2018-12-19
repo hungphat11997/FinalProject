@@ -14,28 +14,67 @@ import { Redirect } from 'react-router-dom';
 import { updateSCKey } from '../actions/updateSCKey';
 import { updateProfile } from '../actions/updateProfile';
 import { updateMyNewfeed } from '../actions/updateMyNewfeed';
+import { updateDialog2 } from '../actions/updateDialog2';
 
 class HomePage extends Component {
   openModal = () => {
     this.props.onUpdateDialog(true)
   }
+  openModal2 = () => {
+    this.props.onUpdateDialog2(true)
+  }
   closeModal = () => {
     this.props.onUpdateDialog(false)
+  }
+  closeModal2 = () => {
+    this.props.onUpdateDialog2(false)
   }
   onClickComment = () => {
     this.props.onUpdateComment(!this.props.comment)
   }
-  render() {
+  post = () => {
+    var data = {
+      pbk: this.props.pbkey,
+      sck: this.props.sckey,
+      post: document.getElementById('txtarea').value,
+    }
+    if(data.post !== "" && data.post !== undefined) {
+      //post
+    fetch(`/post`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"})
+    }
+    else {
+      alert("Message cannot be empty!")
+    }
+    this.props.onUpdateMyNewfeed({newfeed: this.props.mynewfeed.newfeed.concat(data.post)})
+    document.getElementById('txtarea').value = null;
+  }
+  componentDidMount() {
+    var data = {
+      pbk: this.props.pbkey,
+    }
     //profile
-    fetch(`http://localhost:3001/data/${this.props.pbkey}`)
-      .then(res => res.json())
-      .then(res => this.props.profile.name === "" && this.props.profile.seq === 0 && this.props.profile.balance === 0
-       ? this.props.onUpdateProfile({name: res.name, seq: res.sequence, balance: res.balance}):null);
+    fetch(`/data`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"})
+      .then((res) => res.json())
+       .then(res => this.props.onUpdateProfile({name: res.name, seq: res.sequence, balance: res.balance}));
 
     //mynewfeed
-    fetch(`http://localhost:3001/mynewfeed/${this.props.pbkey}`)
+    fetch(`/mynewfeed`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}) 
       .then(res => res.json())
-      .then(res => this.props.mynewfeed.newfeed.length === 0 ? this.props.onUpdateMyNewfeed({newfeed: res.newfeed}): null);
+      .then(res => this.props.onUpdateMyNewfeed({newfeed: res.newfeed}));
+  }
+  render() {
 
       const myNewfeedList = Object.keys(this.props.mynewfeed.newfeed).map((i) =>
       <div>
@@ -60,7 +99,26 @@ class HomePage extends Component {
               </Row>
               </li>
               <br/>
+              </div>)
+      const postArea = (<li class="post-area list-li">
+      <Row className="show-grid">
+            <Col xs={6} md={1}>
+            <div class="img-post">
+            <img class="user-image-post" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+            </div>
+            </Col>
+            <Col xs={6} md={11}>
+            <div class="post-space">
+            <Textarea id="txtarea" class="txt-area" autoFocus
+            placeHolder="What're you thinking?"
+            />
+            </div>
+            <div class="div-center follow">
+              <button onClick={() => this.post()}class="button button1">Post</button>
               </div>
+            </Col>
+            </Row>
+  </li>
       
     )
     return (
@@ -75,7 +133,7 @@ class HomePage extends Component {
           src={this.props.coverImage.cover}
         />
         </div>
-      <NavBar component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+      <NavBar postCount={myNewfeedList.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
       
       <Row className="show-grid">
         <Col xs={6} md={3}>
@@ -87,6 +145,7 @@ class HomePage extends Component {
         <div class="div-left"><p> Name: <b>{this.props.profile.name}</b></p></div>
         <div class="div-left"><p> Sequence: <b>{this.props.profile.seq}</b></p></div>
         <div class="div-left"><p> Balance: <b>{this.props.profile.balance}</b></p></div>
+        <div class="div-left"><button onClick={() => this.openModal2()} class="btn-history">Payment history</button></div>
           </div>
         </Col>
         </Row>
@@ -94,26 +153,33 @@ class HomePage extends Component {
         </Col>
         <Col xs={6} md={5}>
         <div class="col-space">
-
-          {/* <li class="post-area list-li">
-        <Row className="show-grid">
+{/* payment history */}
+<Modal show={this.props.dialog2} onHide={() =>this.closeModal2()}>
+    <Modal.Header>
+    <div><b>Payment History</b></div>
+          </Modal.Header>
+          <Modal.Body>
+            <ul>
+            <li class="list-li">
+              <Row className="show-grid">
               <Col xs={6} md={1}>
-              <div class="img-post">
-              <img class="user-image-post" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
-              </div>
+              <div><b>1.</b></div>
               </Col>
+              
               <Col xs={6} md={11}>
               <div class="post-space">
-              <Textarea class="txt-area" autoFocus
-              placeHolder="What're you thinking?"
-              />
+              <p>Receive 100 CEL from abc</p>
               </div>
-              <div class="div-center follow">
-                <button class="button button1">Post</button>
-                </div>
               </Col>
               </Row>
-    </li> */}
+              </li> 
+              </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() =>this.closeModal2()}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+{/* post detail */}
     <Modal show={this.props.dialog} onHide={() =>this.closeModal()}>
     <Modal.Header>
     <div>
@@ -171,7 +237,8 @@ class HomePage extends Component {
         </Modal>
               
           <ul>
-            {myNewfeedList}
+            {postArea}
+            {myNewfeedList.reverse()}
           </ul>
           </div>
         </Col>
@@ -194,6 +261,7 @@ const mapStateToProps = (state) => {
     coverImage: state.coverImage,
     tab: state.tab,
     dialog: state.dialog,
+    dialog2: state.dialog2,
     comment: state.comment,
     component: state.component,
     sckey: state.sckey,
@@ -208,6 +276,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCoverImage: updateCoverImage,
     onUpdateTab: updateTab,
     onUpdateDialog: updateDialog,
+    onUpdateDialog2: updateDialog2,
     onUpdateComment: updateComment,
     onUpdateComponent: updateComponent,
     onUpdateSCKey: updateSCKey,

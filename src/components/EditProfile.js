@@ -37,7 +37,7 @@ class EditProfile extends Component {
                     src={this.props.coverImage.cover}
                   />
                 </div>
-                <NavBar component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+                <NavBar postCount={this.props.mynewfeed.newfeed.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
                 <Col xs={6} md={3}>
                 <Row className="show-grid">
         <Col xs={6} md={6}>
@@ -69,17 +69,10 @@ class EditProfile extends Component {
                           </Col>
                         </FormGroup>
                         <FormGroup row>
-                          <Label for="age" sm={4}>Age</Label>
+                          <Label for="Image" sm={4}>Upload Image</Label>
                           <Col sm={4} md="4">
                             <InputGroup>
-                              <Input type="text" id="age" name="age" placeholder="Age"/>
-                            </InputGroup>
-                          </Col>
-                        </FormGroup><FormGroup row>
-                          <Label for="phone" sm={4}>Phone</Label>
-                          <Col sm={4} md="4">
-                            <InputGroup>
-                              <Input type="text" id="phone" name="phone" placeholder="Phone"/>
+                            <input id="image" type="file" name="image"/>
                             </InputGroup>
                           </Col>
                         </FormGroup>
@@ -89,8 +82,8 @@ class EditProfile extends Component {
 
 
                     <CardFooter>
-                      <Button type="submit" size="sm" sm={2} color="success"><i className="fa fa-save" />Save</Button>{' '}
-                      <Button type="reset" size="sm" color="danger"><i className="fa fa-ban" /> Reset</Button>
+                      <Button type="submit" size="sm" sm={2}><i className="fa fa-save" />Save</Button>{' '}
+                      <Button type="reset" size="sm"><i className="fa fa-ban" />Cancel</Button>
                     </CardFooter>
                 <br></br>
                   </Card>
@@ -109,6 +102,7 @@ const mapStateToProps = (state) => {
     component: state.component,
     sckey: state.sckey,
     profile: state.profile,
+    mynewfeed: state.mynewfeed,
   }
 }
 

@@ -18,39 +18,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateSCKey } from '../actions/updateSCKey';
 import { Redirect } from 'react-router-dom';
-import { updateLoginInput } from '../actions/updateLoginInput';
-import { updateRegister } from '../actions/updateRegister';
-import Register from './Register';
-import { updateRegisterPBInput } from '../actions/updateRegisterPBInput';
-import { updateRegisterConfInput } from '../actions/updateRegisterConfInput';
 import { updatePBKey } from '../actions/updatePBKey';
 
 const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
-const secretKey = "SBGZ5OSTDSA6FJEF7GB4MB2GQVL4WOHVKDSPY3ODCFOALPEPIFCOETMF";
 class Login extends React.Component {
 
-    loginText = (e) => {
-        var a = e.target.value;
-        this.props.onUpdateLoginInput(a);
-        
-    }
 
     onLogin = () => {
+      var value = document.getElementById('login').value;
         try {
-            const key = Keypair.fromSecret(this.props.logininput);
-            this.props.onUpdateSCKey(this.props.logininput);
+            const key = Keypair.fromSecret(value);
+            this.props.onUpdateSCKey(value);
             this.props.onUpdatePBKey(key.publicKey());
-            //tx.account = key.publicKey();
+            
           }
           catch(err) {
             alert(err.message);
           }
     }
 
-    onRegister = () => {
-      this.props.onUpdateRegister(true);
-    }
     render() {
 
       
@@ -63,7 +50,7 @@ class Login extends React.Component {
         <Col xs={6} md={4}>
                   <div class="h-white"><h1>Login</h1></div>
                   <Row>
-                  <input onChange={(e)=> this.loginText(e)} class="input-login" placeholder="secret key"/>
+                  <input id="login" class="input-login" placeholder="secret key"/>
                   </Row>
                   <br></br>
                   <button onClick={() => this.onLogin()}class="button button1">Login</button>
@@ -72,11 +59,6 @@ class Login extends React.Component {
                 <Col xs={6} md={4}>
                 </Col>
                 </Row>
-                {this.props.register == true ? <Register 
-                onUpdateRegister={this.props.onUpdateRegister}
-                onUpdateRegisterPBInput={this.props.onUpdateRegisterPBInput}
-                onUpdateRegisterConfInput={this.props.onUpdateRegisterPBInput}
-                />:<div/>}
                 </div>
                 
         )
@@ -86,20 +68,12 @@ const mapStateToProps = (state) => {
     return {
       sckey: state.sckey,
       pbkey: state.pbkey,
-      logininput: state.logininput,
-      register: state.register,
-      registerpbinput: state.registerpbinput,
-      registerconfinput: state.registerconfinput,
     }
   }
   
   const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
       onUpdateSCKey: updateSCKey,
-      onUpdateLoginInput: updateLoginInput,
-      onUpdateRegister: updateRegister,
-      onUpdateRegisterPBInput: updateRegisterPBInput,
-      onUpdateRegisterConfInput: updateRegisterConfInput,
       onUpdatePBKey: updatePBKey,
     }, dispatch);
   }

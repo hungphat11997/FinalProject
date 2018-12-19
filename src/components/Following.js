@@ -23,7 +23,7 @@ class Following extends Component {
                 src={this.props.coverImage.cover}
               />
             </div>
-            <NavBar component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+            <NavBar postCount={this.props.mynewfeed.newfeed.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
 
 
             <Col xs={6} md={3}>
@@ -63,11 +63,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -94,11 +94,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -126,11 +126,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -160,11 +160,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -191,11 +191,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
 
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -219,10 +219,10 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">follow</button>
+                          <button type="submit" class="button-follow">unfollow</button>
                         </Col>
                         <Col Col xs={6} md={2}>
-                          <i class="fa ellipsis-icon">&#xf142;</i>
+                          
                         </Col>
                       </Row>
                     </div>
@@ -243,6 +243,7 @@ const mapStateToProps = (state) => {
     component: state.component,
     sckey: state.sckey,
     profile: state.profile,
+    mynewfeed: state.mynewfeed,
   }
 }
 
