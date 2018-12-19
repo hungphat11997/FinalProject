@@ -29,7 +29,7 @@ onClickTab = (value) => {
             <div class="div-left">
             <div onClick={() => this.onClickTab("post")} class={this.props.tab === "post" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
             
-        <p >Post<p class="text-center">2</p></p>
+        <p >Post<p class="text-center">{this.props.postCount}</p></p>
         
         </div>
         

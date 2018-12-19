@@ -265,3 +265,9 @@ color: rgb(255, 255, 255);
   cursor: pointer;
   color: rgb(65, 170, 240);
 }
+.btn-history {
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  background-color: rgb(141, 204, 219);
+  border-radius: 10px;
+}
