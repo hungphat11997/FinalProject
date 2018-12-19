@@ -13,39 +13,23 @@ router.get('/', function(req, res, next) {
   
 });
 
-router.get(`/data/:pbk`, function(req, res, next) {
+router.post(`/data`, function(req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  // Pass to next layer of middleware
-
+  var data = req.body;
   var name = "";
   var seq = 0;
   var balance = 0;
   fetch(
-    `https://komodo.forest.network/tx_search?query=%22account=%27${req.params.pbk}%27%22`
+    `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22`
   )
   .then((res) => res.json())
   .then((res) => {
     res.result.txs.map(tx => {
       var buf = new Buffer.from(tx.tx, "base64");
       var decodedTx = v1.decode(buf);
-      if (decodedTx.account === req.params.pbk) seq++;
+      if (decodedTx.account === data.pbk) seq++;
       if (decodedTx.operation === "payment") {
-        if (decodedTx.params.address === req.params.pbk) {
+        if (decodedTx.params.address === data.pbk) {
           balance += decodedTx.params.amount;
         }
         else {
@@ -65,28 +49,12 @@ router.get(`/data/:pbk`, function(req, res, next) {
   })
 });
 
-router.get(`/mynewfeed/:pbk`, function(req, res, next) {
+router.post(`/mynewfeed`, function(req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  // Pass to next layer of middleware
-
+  var data = req.body;
   var newfeed = [];
   fetch(
-    `https://komodo.forest.network/tx_search?query=%22account=%27${req.params.pbk}%27%22`
+    `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22`
   )
   .then((res) => res.json())
   .then((res) => {
@@ -209,12 +177,13 @@ router.get('/payment', function(req, res, next) {
 
 });
 
-router.get("/post", function (req, res) {
+router.post("/post", function (req, res) {
 
+  var data = req.body;
   var seq = 0
   const tx = {
     version: 1,
-    account: "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S",
+    account: data.pbk,
     sequence: 0,
     memo: Buffer.alloc(0),
     operation: 'post',
@@ -222,20 +191,20 @@ router.get("/post", function (req, res) {
       keys: []},
   }
   fetch(
-      `https://komodo.forest.network/tx_search?query=%22account=%27GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S%27%22`
+      `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22`
     )
     .then((res) => res.json())
     .then((res) => {
       res.result.txs.map(tx => {
         var buf = new Buffer.from(tx.tx, "base64");
         var decodedTx = v1.decode(buf);
-        if (decodedTx.account === "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S") seq++;
+        if (decodedTx.account === data.pbk) seq++;
       })
     })
     .then(() => {
-      tx.params.content = Buffer.from("I'm phucnnh", 'utf8');
+      tx.params.content = Buffer.from(data.post, 'utf8');
       tx.sequence = seq + 1
-      v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
+      v1.sign(tx, data.sck);
       var txHash = '0x' + v1.encode(tx).toString('hex')
       //console.log(txHash)
       fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash).then((res) => {})
@@ -244,12 +213,13 @@ router.get("/post", function (req, res) {
 });
 
 
-  router.get('/updatename', function(req, res, next) {
+  router.post('/updatename', function(req, res, next) {
 
+    var data = req.body;
     var seq = 0
   const tx = {
     version: 1,
-    account: "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S",
+    account: data.pbk,
     sequence: 0,
     memo: Buffer.alloc(0),
     operation: 'update_account',
@@ -259,20 +229,20 @@ router.get("/post", function (req, res) {
     },
   }
   fetch(
-      `https://komodo.forest.network/tx_search?query=%22account=%27GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S%27%22`
+      `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22`
     )
     .then((res) => res.json())
     .then((res) => {
       res.result.txs.map(tx => {
         var buf = new Buffer.from(tx.tx, "base64");
         var decodedTx = v1.decode(buf);
-        if (decodedTx.account === "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S") seq++;
+        if (decodedTx.account === data.pbk) seq++;
       })
     })
     .then(() => {
-      tx.params.value = Buffer.from("Phúc VNG", 'utf8');
+      tx.params.value = Buffer.from(data.name, 'utf8');
       tx.sequence = seq + 1
-      v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
+      v1.sign(tx, data.sck);
       var txHash = '0x' + v1.encode(tx).toString('hex')
       fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash)
     })

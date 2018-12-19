@@ -95,7 +95,9 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                        
+
+                      
+
                       </Row>
                     </div>
 
@@ -186,7 +188,9 @@ class Followers extends Component {
                           <button type="submit" class="button-follow">follow</button>
 
                         </Col>
-                       
+
+                        
+
                       </Row>
                     </div>
 

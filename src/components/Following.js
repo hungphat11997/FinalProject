@@ -63,10 +63,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                      
+
                       </Row>
                     </div>
                   </Col>
@@ -92,10 +93,11 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
-                       
+
                       </Row>
                     </div>
 
@@ -122,10 +124,12 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
                         
+
                       </Row>
                     </div>
 
@@ -154,6 +158,7 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
@@ -183,6 +188,7 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
 
                         </Col>
@@ -209,7 +215,9 @@ class Following extends Component {
                           </div>
                         </Col>
                         <Col Col xs={6} md={4}>
+
                           <button type="submit" class="button-follow">Unfollow</button>
+
                         </Col>
                        
                       </Row>
