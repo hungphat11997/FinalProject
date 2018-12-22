@@ -41,14 +41,14 @@ const PostParams = vstruct([
   { name: 'keys', type: vstruct.VarArray(vstruct.UInt8, vstruct.Buffer(42)) },
 ]);
 
-const UpdateAccountParams = vstruct([
-  { name: 'key', type: vstruct.VarString(vstruct.UInt8) },
-  { name: 'value', type: vstruct.VarBuffer(vstruct.UInt16BE) },
-]);
-
 const PlainTextContent = vstruct([
   { name: 'type', type: vstruct.UInt8 },
   { name: 'text', type: vstruct.VarString(vstruct.UInt16BE) },
+]);
+
+const UpdateAccountParams = vstruct([
+  { name: 'key', type: vstruct.VarString(vstruct.UInt8) },
+  { name: 'value', type: vstruct.VarBuffer(vstruct.UInt16BE) },
 ]);
 
 const Followings = vstruct([
@@ -179,8 +179,8 @@ function hash(tx) {
 function base64_encode(file) {
   // read binary data
   var bitmap = fs.readFileSync(file);
-  console.log(bitmap)
+  //console.log(bitmap)
   // convert binary data to base64 encoded string
   return new Buffer(bitmap).toString('base64');
 }
-module.exports = { encode, decode, Transaction, sign, hash, verify, base64_encode, secretKey, publicKey };
+module.exports = { encode, decode, Transaction, PlainTextContent, sign, hash, verify, base64_encode, secretKey, publicKey };

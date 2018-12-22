@@ -54,7 +54,6 @@ class Login extends React.Component {
                   </Row>
                   <br></br>
                   <button onClick={() => this.onLogin()}class="button button1">Login</button>
-                  <p onClick={() => this.onRegister()}class="create-account-link"><u>Create account</u></p>
                 </Col>
                 <Col xs={6} md={4}>
                 </Col>

@@ -15,12 +15,38 @@ import { updateSCKey } from '../actions/updateSCKey';
 import { updateProfile } from '../actions/updateProfile';
 import { updateMyNewfeed } from '../actions/updateMyNewfeed';
 import { updateDialog2 } from '../actions/updateDialog2';
-
+import { updatePaymentHistory } from '../actions/updatePaymentHistory';
+import { updatePaymentUser } from '../actions/updatePaymentUser';
+import { updatePaymentUserList } from '../actions/updatePaymentUserList';
+import { updateTransfers } from '../actions/updateTransfers';
+import { sign, encode, Transaction} from '../v1';
+const { Keypair } = require('stellar-base');
 class HomePage extends Component {
   openModal = () => {
     this.props.onUpdateDialog(true)
   }
   openModal2 = () => {
+    this.nameOfPublicKey(this.props.paymentuser.payUser)
+    var data = {
+      pbk: this.props.pbkey,
+    }
+    // //paymenthistory
+    // fetch(`/paymenthistory`, {method: "POST", body: JSON.stringify(data),
+    // headers: {
+    //   "Content-Type": "application/json"
+    // },
+    // credentials: "same-origin"})
+    //   .then((res) => res.json())
+    //    .then(res => this.props.onUpdatePaymentHistory({payHis: res.payHis}));
+
+    //    //paymentuser
+    // fetch(`/paymentuser`, {method: "POST", body: JSON.stringify(data),
+    // headers: {
+    //   "Content-Type": "application/json"
+    // },
+    // credentials: "same-origin"})
+    //   .then((res) => res.json())
+    //    .then(res => this.props.onUpdatePaymentUser({payUser: res.payUser}));
     this.props.onUpdateDialog2(true)
   }
   closeModal = () => {
@@ -32,6 +58,105 @@ class HomePage extends Component {
   onClickComment = () => {
     this.props.onUpdateComment(!this.props.comment)
   }
+  openTransfers = () => {
+    this.props.onUpdateTransfers(!this.props.transfers)
+  }
+  Transfers = () => {
+    if(document.getElementById('to').value === "" || document.getElementById('amount').value === "") {
+      alert("Missing infomation!")
+    }
+    else if(document.getElementById('amount').value === 0) {
+      alert("Amount must be higher than 0!")
+    }
+    else {
+
+        var key = {
+          pbk: document.getElementById('to').value,
+        }
+
+        //profile
+        fetch(`/check`, {method: "POST", body: JSON.stringify(key),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"})
+          .then((res) => res.json())
+          .then((res) => {if(res.isValid === false)
+            alert("Key invalid!"); else {
+                //payment
+                var data = {
+                  pbk: this.props.pbkey,
+                  sck: this.props.sckey,
+                  receiver: document.getElementById('to').value,
+                  amount: parseInt(document.getElementById('amount').value, 10),
+                }
+
+            fetch(`/payment`, {method: "POST", body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin"}).then(alert("Success!"))
+            // .then(res => res.json())
+            // .then((res) => {
+            //   var tx = res;
+            //   console.log(tx)
+
+            // sign(tx, this.props.sckey);
+            
+            // var txHash = '0x' + encode(tx).toString('hex')
+            // fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash)
+            // }
+            // );
+            
+          }
+            }
+          );
+        }
+
+  }
+  createAccount = () => {
+    if(document.getElementById('create').value === "") {
+      alert("Missing infomation!")
+    }
+    else {
+      try {
+        Keypair.fromPublicKey(document.getElementById('create').value);
+        var key = {
+          pbk: document.getElementById('create').value,
+        }
+    
+        var data = {
+          pbk: this.props.pbkey,
+          sck: this.props.sckey,
+          account: key.pbk,
+        }
+        //profile
+        fetch(`/check`, {method: "POST", body: JSON.stringify(key),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"})
+          .then((res) => res.json())
+          .then((res) => {
+            if(res.isValid === true)
+              alert("Account exist!");
+            else {
+              fetch(`/createaccount`, {method: "POST", body: JSON.stringify(data),
+              headers: {
+                "Content-Type": "application/json"
+              },
+              credentials: "same-origin"}).then(alert("Create successful!"));
+            }
+          }
+          )
+      }
+      catch(err) {
+        alert("Key not exist!")
+      }
+    
+    }
+}
+
   post = () => {
     var data = {
       pbk: this.props.pbkey,
@@ -45,6 +170,17 @@ class HomePage extends Component {
       "Content-Type": "application/json"
     },
     credentials: "same-origin"})
+    // .then(res => res.json())
+    // .then(
+    //   (res) => {
+    //     var tx = res;
+    //     Transaction.encode(tx);
+    // sign(tx, this.props.sckey);
+    // var txHash = '0x' + encode(tx).toString('hex')
+    // console.log(txHash)
+    // fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash)
+    //   }
+    // )
     }
     else {
       alert("Message cannot be empty!")
@@ -52,6 +188,29 @@ class HomePage extends Component {
     this.props.onUpdateMyNewfeed({newfeed: this.props.mynewfeed.newfeed.concat(data.post)})
     document.getElementById('txtarea').value = null;
   }
+
+  nameOfPublicKey = async (payUser) => {
+    //console.log(pbk)
+    var arr = [];
+    for(let i = 0;i < payUser.length; i++){
+      var data = {
+        pbk: payUser[i],
+      }
+      //profile
+    const response = await fetch(`/data`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}).then(res => res.json())
+    const json = await response.name;
+    arr.push(json);
+    
+  }
+  this.props.onUpdatePaymentUserList({payUserList: arr})
+  }
+
+
+
   componentDidMount() {
     var data = {
       pbk: this.props.pbkey,
@@ -73,9 +232,28 @@ class HomePage extends Component {
     credentials: "same-origin"}) 
       .then(res => res.json())
       .then(res => this.props.onUpdateMyNewfeed({newfeed: res.newfeed}));
+
+      //paymenthistory
+    fetch(`/paymenthistory`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"})
+      .then((res) => res.json())
+       .then(res => this.props.onUpdatePaymentHistory({payHis: res.payHis}));
+
+       //paymentuser
+    fetch(`/paymentuser`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"})
+      .then((res) => res.json())
+       .then(res => this.props.onUpdatePaymentUser({payUser: res.payUser}));
+      
+
   }
   render() {
-
       const myNewfeedList = Object.keys(this.props.mynewfeed.newfeed).map((i) =>
       <div>
       <li onClick={() => this.openModal()} class="list-li post-content">
@@ -88,7 +266,7 @@ class HomePage extends Component {
               <div class="post-space">
               <p class="post-name div-left">{this.props.profile.name}</p>
               <p class="div-left">{this.props.mynewfeed.newfeed[i]}</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              {/* <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/> */}
               <div class="div-left">
               <i onClick={() => this.openModal()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
               <i onClick class="fa fa-share-alt icon-size share-icon">10</i>
@@ -113,7 +291,7 @@ class HomePage extends Component {
             placeHolder="What're you thinking?"
             />
             </div>
-            <div class="div-center follow">
+            <div class="div-right follow">
               <button onClick={() => this.post()}class="button button1">Post</button>
               </div>
             </Col>
@@ -121,6 +299,21 @@ class HomePage extends Component {
   </li>
       
     )
+    const paymentHistory = Object.keys(this.props.paymenthistory.payHis).map((i) =>
+              <li class="list-li">
+              <Row className="show-grid">
+              <Col xs={6} md={1}>
+              <div><b>{i}.</b></div>
+              </Col>
+              
+              <Col xs={6} md={11}>
+              <div class="post-space">
+              <p>{this.props.paymenthistory.payHis[i].concat(` ${this.props.paymentuserlist.payUserList[i] !== "" ? this.props.paymentuserlist.payUserList[i]:this.props.paymentuser.payUser[i]}`)}</p>
+              </div>
+              </Col>
+              </Row>
+              </li> 
+  )
     return (
       this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "following" ? <Redirect to="/following"></Redirect> :
@@ -133,7 +326,7 @@ class HomePage extends Component {
           src={this.props.coverImage.cover}
         />
         </div>
-      <NavBar postCount={myNewfeedList.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+      <NavBar onUpdateSCKey={this.props.onUpdateSCKey} postCount={myNewfeedList.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
       
       <Row className="show-grid">
         <Col xs={6} md={3}>
@@ -146,6 +339,13 @@ class HomePage extends Component {
         <div class="div-left"><p> Sequence: <b>{this.props.profile.seq}</b></p></div>
         <div class="div-left"><p> Balance: <b>{this.props.profile.balance}</b></p></div>
         <div class="div-left"><button onClick={() => this.openModal2()} class="btn-history">Payment history</button></div>
+        <div class="div-left"><button onClick={() => this.openTransfers()} class="btn-history">Transfers</button></div>
+        {this.props.transfers === true ? 
+        <div>
+          <div class="div-left"><p>To:</p></div><div class="div-right"><input class="input-transfers" id="to" placeholder="puclic key"/></div>
+          <div class="div-left"><p>Amount:</p></div><div class="div-right"><input class="input-transfers" id="amount" type="number"/></div>
+          <button onClick={() => this.Transfers()} class="btn-history">OK</button>
+          </div> : null}
           </div>
         </Col>
         </Row>
@@ -160,19 +360,7 @@ class HomePage extends Component {
           </Modal.Header>
           <Modal.Body>
             <ul>
-            <li class="list-li">
-              <Row className="show-grid">
-              <Col xs={6} md={1}>
-              <div><b>1.</b></div>
-              </Col>
-              
-              <Col xs={6} md={11}>
-              <div class="post-space">
-              <p>Receive 100 CEL from abc</p>
-              </div>
-              </Col>
-              </Row>
-              </li> 
+            {paymentHistory}
               </ul>
           </Modal.Body>
           <Modal.Footer>
@@ -192,7 +380,7 @@ class HomePage extends Component {
               <div class="post-space">
               <p class="post-name">ABC</p>
               <p>This is my 1st post</p>
-              <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/>
+              {/* <Image width={300} height={200} src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg"/> */}
               <i onClick={() => this.onClickComment()} class="fa fa-comments-o icon-size cmt-icon"> 23</i>
               <i class="fa fa-share-alt icon-size share-icon">10</i>
               <i class="fa fa-heart-o icon-size like-icon">50</i>
@@ -244,7 +432,11 @@ class HomePage extends Component {
         </Col>
         <Col xsHidden md={4}>
         <div class="col-space">
-
+        <div>
+          <h1>Create Account</h1>
+          <div><input class="input-transfers" id="create" placeholder="puclic key"/></div>
+          <button onClick={() => this.createAccount()} class="btn-history">Register</button>
+          </div>          
           </div>
         </Col>
       </Row>
@@ -268,6 +460,10 @@ const mapStateToProps = (state) => {
     pbkey: state.pbkey,
     profile: state.profile,
     mynewfeed: state.mynewfeed,
+    paymenthistory: state.paymenthistory,
+    paymentuser: state.paymentuser,
+    paymentuserlist: state.paymentuserlist,
+    transfers: state.transfers,
   }
 }
 
@@ -282,6 +478,10 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateSCKey: updateSCKey,
     onUpdateProfile: updateProfile,
     onUpdateMyNewfeed: updateMyNewfeed,
+    onUpdatePaymentHistory: updatePaymentHistory,
+    onUpdatePaymentUser: updatePaymentUser,
+    onUpdatePaymentUserList: updatePaymentUserList,
+    onUpdateTransfers: updateTransfers,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
