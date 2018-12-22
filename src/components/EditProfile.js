@@ -64,7 +64,7 @@ updateProfile = () => {
                     src={this.props.coverImage.cover}
                   />
                 </div>
-                <NavBar postCount={this.props.mynewfeed.newfeed.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+                <NavBar onUpdateSCKey={this.props.onUpdateSCKey} postCount={this.props.mynewfeed.newfeed.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
                 <Col xs={6} md={3}>
                 <Row className="show-grid">
         <Col xs={6} md={6}>

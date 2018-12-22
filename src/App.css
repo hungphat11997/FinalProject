@@ -271,3 +271,6 @@ color: rgb(255, 255, 255);
   background-color: rgb(141, 204, 219);
   border-radius: 10px;
 }
+.input-transfers {
+  width: 180px;
+}

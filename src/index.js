@@ -15,6 +15,10 @@ import profileReducer from './reducers/profileReducer';
 import mynewfeedReducer from './reducers/mynewfeedReducer';
 import pbkeyReducer from './reducers/pbkeyReducer';
 import dialog2Reducer from './reducers/dialog2-reducer';
+import paymenthistoryReducer from './reducers/paymenthistoryReducer';
+import paymentuserReducer from './reducers/paymentuserReducer';
+import paymentuserlistReducer from './reducers/paymentuserlistReducer';
+import transfersReducer from './reducers/transfersReducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
@@ -26,6 +30,10 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     mynewfeed: mynewfeedReducer,
     pbkey: pbkeyReducer,
+    paymenthistory: paymenthistoryReducer,
+    paymentuser: paymentuserReducer,
+    paymentuserlist: paymentuserlistReducer,
+    transfers: transfersReducer,
   })
 
 // Create store with reducers

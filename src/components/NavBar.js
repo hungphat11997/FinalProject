@@ -10,6 +10,9 @@ onClickTab = (value) => {
     this.props.onUpdateComponent(value);
 }
 
+logout = () => {
+    this.props.onUpdateSCKey(null);
+}
 
 
     render() {
@@ -55,6 +58,7 @@ onClickTab = (value) => {
         : "nav-item nav-item-text"}>   
         <p >Edit Profile<p class="text-center"></p></p>
         </div>
+        <button onClick={() => this.logout()} class="btn-history">Log out</button>
           </div>
 
           
