@@ -42,6 +42,11 @@
   justify-content: flex-start;
   padding-left: 10px;
 }
+.div-right {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
 .button {
   background-color: rgb(87, 146, 161); /* Blue */
   border: none;
@@ -106,7 +111,7 @@
   border-bottom: 2px solid rgb(255, 255, 255);
 }
 .user-info {
-  padding-left: 230px;
+
   padding-top: 60px;
 }
 .text-center {
@@ -155,7 +160,107 @@ body {
 .navbar-brand {
   display: flex;
   align-items: center;
+  height: 20px;
+  margin-bottom: 30px;
 }
 .post-space {
   padding-left: 10px;
+}
+
+.post-content {
+  cursor: pointer;
+}
+.post-content:hover {
+  background-color: whitesmoke;
+}
+.img-post {
+  padding-left: 10px;
+}
+.user-image-post {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.post-area {
+  background-color: #E8F5FD;
+}
+.txt-area {
+  width: 100%;
+  border-radius: 3px;
+  border: 2px solid #c9def0;
+  display: block;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-height: 80px;
+  overflow: hidden;
+  vertical-align: top;
+}
+.ReactModal__Body--open {
+  overflow-y: hidden;
+}
+.cmt-image {
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.follow-li{
+  background-color: white;
+  padding: 5px;
+  list-style: none;
+  margin-left: -10px;
+  height: 150px;
+}
+.cover-div-small {
+  width: 100%;
+  height: 90px;
+  overflow: hidden;
+}
+
+.user-profile-small {
+  width: 90px;
+  height: 90px;
+  border:  5px solid rgb(255, 255, 255);
+  border-radius: 50%;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.button-follow{
+  margin: 40px;
+  background-color: white;
+  color: black;
+  border: 2px solid rgb(87, 146, 161);
+  border-radius: 100px;
+  padding: 5px 25px;
+}
+.ellipsis-icon{
+  margin-top: 20px;
+  margin-left: 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.follow-name{
+  min-width: max-content
+}
+
+.follow-name a{
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+.h-white {
+color: rgb(255, 255, 255);
+}
+.input-login {
+  width: 400px;
+}
+.input-register {
+  width: 300px;
+}
+.create-account-link {
+  cursor: pointer;
+  color: rgb(65, 170, 240);
 }

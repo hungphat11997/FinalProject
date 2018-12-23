@@ -1,10 +1,17 @@
 import React from 'react';
 import { Navbar, FormGroup, FormControl, Button, Grid, Row, Col, NavItem, Nav } from 'react-bootstrap';
 import '../App.css';
+
 class NavBar extends React.Component {
+
+    
 onClickTab = (value) => {
     this.props.onUpdateTab(value);
+    this.props.onUpdateComponent(value);
 }
+
+
+
     render() {
         return(
       <Navbar>
@@ -21,26 +28,38 @@ onClickTab = (value) => {
         
             <div class="div-left">
             <div onClick={() => this.onClickTab("post")} class={this.props.tab === "post" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
+            
         <p >Post<p class="text-center">2</p></p>
+        
         </div>
-
-        <div onClick={() => this.onClickTab("following")} class={this.props.tab === "following" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
+        
+        <div onClick={() => this.onClickTab("following")} 
+        class={this.props.tab === "following" ? "nav-item nav-item-text nav-item-text-click"
+        : "nav-item nav-item-text"}>   
         <p >Following<p class="text-center">200</p></p>
         </div>
 
-        <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
+        {/* <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
         <p >Followers<p class="text-center">20000</p></p>
-        </div>
+        </div> */}
+
+        
+
         </div>
         </Col>
         <Col xsHidden md={4} >
             <div class="div-center follow">
-          <button type="submit" class="button button1">Edit Profile</button>
+          {/* <button type="submit" class="button button1">Edit Profile</button> */}
+          <div onClick={() => this.onClickTab("editprofile")} 
+        class={this.props.tab === "editprofile" ? "nav-item nav-item-text nav-item-text-click"
+        : "nav-item nav-item-text"}>   
+        <p >Edit Profile<p class="text-center"></p></p>
+        </div>
           </div>
+
+          
         </Col>
-      </Row>
-      
-      
+      </Row>    
     </Navbar>)
     }
 }

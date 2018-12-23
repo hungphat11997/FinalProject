@@ -7,9 +7,31 @@ import { Provider} from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import coverImageReducer from './reducers/coverimage-reducer';
 import tabReducer from './reducers/tab-reducer';
+import dialogReducer from './reducers/dialog-reducer';
+import commentReducer from './reducers/commentReducer';
+import componentReducer from './reducers/component-reducer';
+import sckeyReducer from './reducers/sckeyReducer';
+import logininputReducer from './reducers/logininputReducer';
+import registerReducer from './reducers/registerReducer';
+import registerpbinputReducer from './reducers/registerpbinputReducer';
+import registerconfinputReducer from './reducers/registerconfinputReducer';
+import profileReducer from './reducers/profileReducer';
+import mynewfeedReducer from './reducers/mynewfeedReducer';
+import pbkeyReducer from './reducers/pbkeyReducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
+    dialog: dialogReducer,
+    comment: commentReducer,
+    component: componentReducer,
+    sckey: sckeyReducer,
+    logininput: logininputReducer,
+    register: registerReducer,
+    registerpbinput: registerpbinputReducer,
+    registerconfinput: registerconfinputReducer,
+    profile: profileReducer,
+    mynewfeed: mynewfeedReducer,
+    pbkey: pbkeyReducer,
   })
 
 // Create store with reducers
