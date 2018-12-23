@@ -42,9 +42,9 @@ logout = () => {
         <p >Following<p class="text-center">200</p></p>
         </div>
 
-        <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
+        {/* <div onClick={() => this.onClickTab("followers")} class={this.props.tab === "followers" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
         <p >Followers<p class="text-center">20000</p></p>
-        </div>
+        </div> */}
 
         
 

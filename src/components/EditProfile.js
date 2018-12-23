@@ -56,7 +56,7 @@ updateProfile = () => {
       this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
         this.props.component === "following" ? <Redirect to="/following"></Redirect> :
-          this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
+          // this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
             <div class="content">
               <div>
                 <div class="cover-div">
