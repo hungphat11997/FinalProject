@@ -14,7 +14,7 @@ class Following extends Component {
     return (
       this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
-      this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
+      // this.props.component === "followers" ? <Redirect to="/followers"></Redirect> :
       this.props.component === "editprofile" ? <Redirect to="/editprofile"></Redirect> :
         <div class="content">
           <div>
@@ -40,17 +40,103 @@ class Following extends Component {
         </Row>
             </Col>
 
-            <Col xs={6} md={9}>
-              <div class="follow-list">
-                <Row>
+ <Col xs={6} md={5}>
+ <div class="col-space">
+ <ul>
+   <div>
+     <li class="follow-li">
+     <div class="show-grid row">
+     
+                        <Col Col xs={6} md={5}>
 
+                          <div>
+                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
+                          </div>
+
+                          <div class="follow-name">
+                            <a> Nguyễn Văn Minh</a>
+                          </div>
+                        </Col>
+                        <Col Col xs={6} md={4}>
+                          <button type="submit" class="button-follow">Unfollow</button>
+                       </Col>                    
+                     
+     </div>
+     
+     </li>        
+     
+     <br/>
+     
+     </div>
+     
+     <div>
+     <li class="follow-li">
+     <div class="show-grid row">
+     
+                        <Col Col xs={6} md={5}>
+
+                          <div>
+                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
+                          </div>
+
+                          <div class="follow-name">
+                            <a> Bill Gate</a>
+                          </div>
+                        </Col>
+                        <Col Col xs={6} md={4}>
+                          <button type="submit" class="button-follow">Unfollow</button>
+                       </Col>                    
+                     
+     </div>
+     
+     </li>        
+     
+     <br/>
+     
+     </div>
+
+     <div>
+     <li class="follow-li">
+     <div class="show-grid row">
+     
+                        <Col Col xs={6} md={5}>
+
+                          <div>
+                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
+                          </div>
+
+                          <div class="follow-name">
+                            <a> Bill Gate</a>
+                          </div>
+                        </Col>
+                        <Col Col xs={6} md={4}>
+                          <button type="submit" class="button-follow">Unfollow</button>
+                       </Col>                    
+                     
+     </div>
+    
+     </li>        
+
+     <br/>
+     
+     </div>
+     </ul>
+     </div>
+ 
+ </Col>
+           
+               
+
+
+
+
+
+               
+               
+                {/* <Row>
                   <Col Col xs={6} md={4}>
                     <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
+                     
                       <Row>
                         <Col Col xs={6} md={5}>
 
@@ -64,160 +150,15 @@ class Following extends Component {
                         </Col>
                         <Col Col xs={6} md={4}>
                           <button type="submit" class="button-follow">Unfollow</button>
-
-                        </Col>
-                      
+                       </Col>                    
                       </Row>
                     </div>
                   </Col>
+              
+                </Row> */}
 
 
-
-                  <Col Col xs={6} md={4}>
-                    <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
-                      <Row>
-                        <Col Col xs={6} md={5}>
-
-                          <div class="navbar-brand">
-                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
-                          </div>
-
-                          <div class="follow-name">
-                            <a> Bill Gate</a>
-                          </div>
-                        </Col>
-                        <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">Unfollow</button>
-
-                        </Col>
-                       
-                      </Row>
-                    </div>
-
-                  </Col>
-
-
-
-                  <Col Col xs={6} md={4}>
-                    <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
-                      <Row>
-                        <Col Col xs={6} md={5}>
-
-                          <div class="navbar-brand">
-                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
-                          </div>
-
-                          <div class="follow-name">
-                            <a> Bill Gate</a>
-                          </div>
-                        </Col>
-                        <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">Unfollow</button>
-
-                        </Col>
-                        
-                      </Row>
-                    </div>
-
-                  </Col>
-                </Row>
-
-
-                <Row>
-
-                  <Col Col xs={6} md={4}>
-                    <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
-                      <Row>
-                        <Col Col xs={6} md={5}>
-
-                          <div class="navbar-brand">
-                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
-                          </div>
-
-                          <div class="follow-name">
-                            <a> Bill Gate</a>
-                          </div>
-                        </Col>
-                        <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">Unfollow</button>
-
-                        </Col>
-                        
-                      </Row>
-                    </div>
-                  </Col>
-
-
-
-                  <Col Col xs={6} md={4}>
-                    <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
-                      <Row>
-                        <Col Col xs={6} md={5}>
-
-                          <div class="navbar-brand">
-                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
-                          </div>
-
-                          <div class="follow-name">
-                            <a> Bill Gate</a>
-                          </div>
-                        </Col>
-                        <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">Unfollow</button>
-
-                        </Col>
-                       
-                      </Row>
-                    </div>
-
-                  </Col>
-
-                  <Col Col xs={6} md={4}>
-                    <div class="follow-li ">
-                      <div class="cover-div-small">
-                        <img class="cover-image"
-                          src={this.props.coverImage.cover}
-                        />
-                      </div>
-                      <Row>
-                        <Col Col xs={6} md={5}>
-                          <div class="navbar-brand">
-                            <img class="user-profile-small" src="https://4.bp.blogspot.com/-MrZt66Yr1TE/W2GLo95RU5I/AAAAAAABppo/d0-_hQ5ePcQrLje3PmIwhQmf_MeZDSkOACLcBGAs/s1600/champions-league-ball-2018-2019%2B%25282%2529.jpg" />
-                          </div>
-                          <div class="follow-name">
-                            <a> Bill Gate</a>
-                          </div>
-                        </Col>
-                        <Col Col xs={6} md={4}>
-                          <button type="submit" class="button-follow">Unfollow</button>
-                        </Col>
-                       
-                      </Row>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            </Col>
+            
           </div>
         </div>
     )
