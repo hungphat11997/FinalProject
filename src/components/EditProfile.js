@@ -23,8 +23,35 @@ import { bindActionCreators } from 'redux';
 import { updateComponent } from '../actions/updateComponent';
 import { Redirect } from 'react-router-dom';
 import { updateSCKey } from '../actions/updateSCKey';
+import { updateProfile } from '../actions/updateProfile';
 class EditProfile extends Component {
+
+updateProfile = () => {
+  var data = {
+    pbk: this.props.pbkey,
+    sck: this.props.sckey,
+    name: document.getElementById('name').value,
+  }
+  if(data.name !== "" && data.name !== undefined) {
+    //updatename
+  fetch(`/updatename`, {method: "POST", body: JSON.stringify(data),
+  headers: {
+    "Content-Type": "application/json"
+  },
+  credentials: "same-origin"})
+  this.props.onUpdateProfile({name: document.getElementById('name').value, seq: this.props.profile.seq, balance: this.props.profile.balance})
+  document.getElementById('name').value = null;
+  alert("Update Successful!")
+  }
+  else {
+    alert("Name cannot be empty!")
+  }
+  
+
+  
+}
   render() {
+    console.log( this.props.nameedit)
     return (
       this.props.sckey == null ? <Redirect to="/login"></Redirect> :
       this.props.component === "post" ? <Redirect to="/"></Redirect> :
@@ -37,7 +64,7 @@ class EditProfile extends Component {
                     src={this.props.coverImage.cover}
                   />
                 </div>
-                <NavBar component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
+                <NavBar onUpdateSCKey={this.props.onUpdateSCKey} postCount={this.props.mynewfeed.newfeed.length} component={this.props.component} tab={this.props.tab} onUpdateTab={this.props.onUpdateTab} onUpdateComponent={this.props.onUpdateComponent} />
                 <Col xs={6} md={3}>
                 <Row className="show-grid">
         <Col xs={6} md={6}>
@@ -58,6 +85,7 @@ class EditProfile extends Component {
                       <strong>Your Profile</strong>
                     </CardHeader>
                     <br></br>
+                    
                     <CardBody className="text-center">
                       <Form action="" method="post" class="form-horizontal">
                         <FormGroup row>
@@ -69,26 +97,27 @@ class EditProfile extends Component {
                           </Col>
                         </FormGroup>
                         <FormGroup row>
-                          <Label for="Image" sm={4}>Upload Image</Label>
+                          <Label for="Image" sm={4}>Profile picture</Label>
                           <Col sm={4} md="4">
                             <InputGroup>
-                            <input id="image" type="file" name="image"/>
+                            <input id="image" type="file" name="image" accept="image/png, image/jpeg"/>
                             </InputGroup>
                           </Col>
                         </FormGroup>
                       </Form>
                     </CardBody>
+              
                     <br></br>
 
 
                     <CardFooter>
-                      <Button type="submit" size="sm" sm={2}><i className="fa fa-save" />Save</Button>{' '}
+                      <Button onClick={() => this.updateProfile()}type="submit" size="sm" sm={2}><i className="fa fa-save" />Save</Button>{' '}
                       <Button type="reset" size="sm"><i className="fa fa-ban" />Cancel</Button>
                     </CardFooter>
                 <br></br>
                   </Card>
                 </Col>
-
+                
               </div>
             </div>
     )
@@ -101,7 +130,9 @@ const mapStateToProps = (state) => {
     tab: state.tab,
     component: state.component,
     sckey: state.sckey,
+    pbkey: state.pbkey,
     profile: state.profile,
+	mynewfeed: state.mynewfeed,
   }
 }
 
@@ -111,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateTab: updateTab,
     onUpdateComponent: updateComponent,
     onUpdateSCKey: updateSCKey,
+    onUpdateProfile: updateProfile,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

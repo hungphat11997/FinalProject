@@ -10,6 +10,9 @@ onClickTab = (value) => {
     this.props.onUpdateComponent(value);
 }
 
+logout = () => {
+    this.props.onUpdateSCKey(null);
+}
 
 
     render() {
@@ -29,7 +32,7 @@ onClickTab = (value) => {
             <div class="div-left">
             <div onClick={() => this.onClickTab("post")} class={this.props.tab === "post" ? "nav-item nav-item-text nav-item-text-click": "nav-item nav-item-text"}>
             
-        <p >Post<p class="text-center">2</p></p>
+        <p >Post<p class="text-center">{this.props.postCount}</p></p>
         
         </div>
         
@@ -55,6 +58,7 @@ onClickTab = (value) => {
         : "nav-item nav-item-text"}>   
         <p >Edit Profile<p class="text-center"></p></p>
         </div>
+        <button onClick={() => this.logout()} class="btn-history">Log out</button>
           </div>
 
           
