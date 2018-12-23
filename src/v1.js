@@ -4,7 +4,9 @@ const { Keypair } = require('stellar-base');
 const publicKey = "GBAZVE7HITKLHDLBSP6TTHS3YQ4V26NODNYZFEIEIM72OBJ7PGMCQKKR";
 const secretKey = "SBGZ5OSTDSA6FJEF7GB4MB2GQVL4WOHVKDSPY3ODCFOALPEPIFCOETMF";
 const crypto = require('crypto');
-const Transaction = vstruct([
+const fetch = require('node-fetch');
+var fs = require('fs');
+export const Transaction = vstruct([
   { name: 'version', type: vstruct.UInt8 },
   { name: 'account', type: vstruct.Buffer(35) },
   { name: 'sequence', type: vstruct.UInt64BE },
@@ -14,36 +16,45 @@ const Transaction = vstruct([
   { name: 'signature', type: vstruct.Buffer(64) },
 ]);
 
-const CreateAccountParams = vstruct([
+export const CreateAccountParams = vstruct([
   { name: 'address', type: vstruct.Buffer(35) },
 ]);
 
-const PaymentParams = vstruct([
+export const PaymentParams = vstruct([
   { name: 'address', type: vstruct.Buffer(35) },
   { name: 'amount', type: vstruct.UInt64BE },
 ]);
 
-const EncryptionKey = vstruct([
+export const EncryptionKey = vstruct([
   // 24 bytes as nonce for box, 16 first bytes is IV
   { name: 'nonce', type: vstruct.Buffer(24) },
   // 42 bytes of key + 10 bytes after box
   { name: 'box', type: vstruct.Buffer(42) },
 ]);
 
-const PostParams = vstruct([
+export const PostParams = vstruct([
   // Maximum length 65536 in bytes
   { name: 'content', type: vstruct.VarBuffer(vstruct.UInt16BE) },
   // Private share no more than 256 - 1 (me) people
-  // Key size = 0 => no encrypt
-  // Key size = 1 => only me
-  { name: 'keys', type: vstruct.VarArray(vstruct.UInt8, EncryptionKey) }
+  // 0 key => public post
+  // >= 1 key => share with specific people, may including me. First 16/24 bytes of content are nonce/iv
+  { name: 'keys', type: vstruct.VarArray(vstruct.UInt8, vstruct.Buffer(42)) },
 ]);
 
-const UpdateAccountParams = vstruct([
-  { name: 'name', type: vstruct.VarString(vstruct.UInt8) },
+export const UpdateAccountParams = vstruct([
+  { name: 'key', type: vstruct.VarString(vstruct.UInt8) },
+  { name: 'value', type: vstruct.VarBuffer(vstruct.UInt16BE) },
 ]);
 
-function encode(tx) {
+export const PlainTextContent = vstruct([
+  { name: 'type', type: vstruct.UInt8 },
+  { name: 'text', type: vstruct.VarString(vstruct.UInt16BE) },
+]);
+
+export const Followings = vstruct([
+  { name: 'addresses', type: vstruct.VarArray(vstruct.UInt16BE, vstruct.Buffer(35)) },
+]);
+export function encode(tx) {
   let params, operation;
   if (tx.version !== 1) {
     throw Error('Wrong version');
@@ -91,7 +102,7 @@ function encode(tx) {
   });
 }
 
-function decode(data) {
+export function decode(data) {
   const tx = Transaction.decode(data);
   if (tx.version !== 1) {
     throw Error('Wrong version');
@@ -136,29 +147,7 @@ function decode(data) {
   };
 }
 
-function getSequence(txs) {
-  for(let i = 0; txs[i] != null; i++){
-    if(txs[i+1] == null) {
-      return txs[i].sequence;
-    }
-  }
-}
-
-function getBalance(txs) {
-  var balance = 0;
-  for(let i = 0; txs[i] != null; i++){
-    if(txs[i].operation == 'payment') {
-      if(txs[i].params.address == publicKey) {
-        balance += txs[i].params.amount;
-      }
-      else balance -= txs[i].params.amount;
-    }
-
-  }
-  return balance;
-}
-
-function getUnsignedHash(tx) {
+export function getUnsignedHash(tx) {
   return crypto
     .createHash('sha256')
     .update(encode({
@@ -168,22 +157,29 @@ function getUnsignedHash(tx) {
     .digest();
 }
 
-function sign(tx, secret) {
+export function sign(tx, secret) {
   const key = Keypair.fromSecret(secret);
   tx.account = key.publicKey();
   tx.signature = key.sign(getUnsignedHash(tx));
 }
 
-function verify(tx) {
+export function verify(tx) {
   const key = Keypair.fromPublicKey(tx.account);
   return key.verify(getUnsignedHash(tx), tx.signature);
 }
 
-function hash(tx) {
+export function hash(tx) {
   return tx.hash = crypto.createHash('sha256')
     .update(encode(tx))
     .digest()
     .toString('hex')
     .toUpperCase();
 }
-module.exports = { encode, decode, Transaction, getSequence, getBalance, sign, hash,verify, secretKey, publicKey };
+
+export function base64_encode(file) {
+  // read binary data
+  var bitmap = fs.readFileSync(file);
+  console.log(bitmap)
+  // convert binary data to base64 encoded string
+  return new Buffer(bitmap).toString('base64');
+}
