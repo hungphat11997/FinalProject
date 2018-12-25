@@ -1,11 +1,10 @@
 const vstruct = require('varstruct');
 const base32 = require('base32.js');
 const { Keypair } = require('stellar-base');
-const publicKey = "GBAZVE7HITKLHDLBSP6TTHS3YQ4V26NODNYZFEIEIM72OBJ7PGMCQKKR";
-const secretKey = "SBGZ5OSTDSA6FJEF7GB4MB2GQVL4WOHVKDSPY3ODCFOALPEPIFCOETMF";
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 var fs = require('fs');
+
 const Transaction = vstruct([
   { name: 'version', type: vstruct.UInt8 },
   { name: 'account', type: vstruct.Buffer(35) },
@@ -54,6 +53,16 @@ const UpdateAccountParams = vstruct([
 const Followings = vstruct([
   { name: 'addresses', type: vstruct.VarArray(vstruct.UInt16BE, vstruct.Buffer(35)) },
 ]);
+
+const InteractParams = vstruct([
+  // Post or comment (or something else?)
+  { name: 'object', type: vstruct.Buffer(32) },
+  // Encrypt with same post key (if any)
+  // Depend on object on parent object keys. First 16 bytes of content are nonce/iv
+  { name: 'content', type: vstruct.VarBuffer(vstruct.UInt16BE) },
+  // React if '', like, love, haha, anrgy, sad, wow
+]);
+
 function encode(tx) {
   let params, operation;
   if (tx.version !== 1) {
@@ -101,6 +110,7 @@ function encode(tx) {
     signature: tx.signature,
   });
 }
+
 
 function decode(data) {
   const tx = Transaction.decode(data);
@@ -183,4 +193,11 @@ function base64_encode(file) {
   // convert binary data to base64 encoded string
   return new Buffer(bitmap).toString('base64');
 }
-module.exports = { encode, decode, Transaction, PlainTextContent, sign, hash, verify, base64_encode, secretKey, publicKey };
+function base64_decode(base64str, file) {
+  // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
+  var bitmap = new Buffer(base64str, 'base64');
+  // write buffer to file
+  fs.writeFileSync(file, bitmap);
+  console.log('******** File created from base64 encoded string ********');
+}
+module.exports = { encode, decode, Transaction, PlainTextContent, PostParams, Followings, sign, hash, verify, base64_encode, base64_decode };
