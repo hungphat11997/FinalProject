@@ -19,9 +19,9 @@ router.get('/', function(req, res, next) {
 router.post(`/data`, function(req, res, next) {
 
   var data = req.body;
-  var name = "";
   var seq = 0;
   var balance = 0;
+  var name = "";
   
   fetch(
     `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
