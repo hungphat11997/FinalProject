@@ -19,7 +19,8 @@ import { bindActionCreators } from 'redux';
 import { updateSCKey } from '../actions/updateSCKey';
 import { Redirect } from 'react-router-dom';
 import { updatePBKey } from '../actions/updatePBKey';
-
+import { updateFollowKey } from '../actions/updateFollowKey';
+import LoadingScreen from 'react-loading-screen';
 const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
 class Login extends React.Component {
@@ -28,10 +29,29 @@ class Login extends React.Component {
     onLogin = () => {
       var value = document.getElementById('login').value;
         try {
-            const key = Keypair.fromSecret(value);
+            const key2 = Keypair.fromSecret(value);
+            const pbk = key2.publicKey();
+            var key = {
+              pbk: pbk,
+            }
+    
+            //profile
+            fetch(`/check`, {method: "POST", body: JSON.stringify(key),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin"})
+              .then((res) => res.json())
+              .then((res) => {if(res.isValid === false)
+                alert("Key invalid!"); else {
+                  //console.log(value)
+                  //console.log(pbk)
+                       //following key
+                }})
             this.props.onUpdateSCKey(value);
-            this.props.onUpdatePBKey(key.publicKey());
+            this.props.onUpdatePBKey(pbk);
             
+              
           }
           catch(err) {
             alert(err.message);
@@ -39,10 +59,10 @@ class Login extends React.Component {
     }
 
     render() {
-
-      
+      //console.log(this.props.followkey)
         return(
-            this.props.sckey !== null ? <Redirect to="/"></Redirect> :
+            this.props.sckey !== null && this.props.pbkey !== null ? 
+            <Redirect to="/"></Redirect> :
             <div>
               <Row>
         <Col xs={6} md={4}>
@@ -67,6 +87,7 @@ const mapStateToProps = (state) => {
     return {
       sckey: state.sckey,
       pbkey: state.pbkey,
+      followkey: state.followkey,
     }
   }
   
@@ -74,6 +95,7 @@ const mapStateToProps = (state) => {
     return bindActionCreators({
       onUpdateSCKey: updateSCKey,
       onUpdatePBKey: updatePBKey,
+      onUpdateFollowKey: updateFollowKey,
     }, dispatch);
   }
   export default connect(mapStateToProps, mapDispatchToProps)(Login);
