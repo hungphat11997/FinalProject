@@ -1,11 +1,10 @@
 const vstruct = require('varstruct');
 const base32 = require('base32.js');
 const { Keypair } = require('stellar-base');
-const publicKey = "GBAZVE7HITKLHDLBSP6TTHS3YQ4V26NODNYZFEIEIM72OBJ7PGMCQKKR";
-const secretKey = "SBGZ5OSTDSA6FJEF7GB4MB2GQVL4WOHVKDSPY3ODCFOALPEPIFCOETMF";
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 var fs = require('fs');
+var Buffer = require('buffer/').Buffer;
 export const Transaction = vstruct([
   { name: 'version', type: vstruct.UInt8 },
   { name: 'account', type: vstruct.Buffer(35) },
@@ -54,17 +53,30 @@ export const PlainTextContent = vstruct([
 export const Followings = vstruct([
   { name: 'addresses', type: vstruct.VarArray(vstruct.UInt16BE, vstruct.Buffer(35)) },
 ]);
+export const InteractParams = vstruct([
+  // Post or comment (or something else?)
+  { name: 'object', type: vstruct.Buffer(32) },
+  // Encrypt with same post key (if any)
+  // Depend on object on parent object keys. First 16 bytes of content are nonce/iv
+  { name: 'content', type: vstruct.VarBuffer(vstruct.UInt16BE) },
+  // React if '', like, love, haha, anrgy, sad, wow
+]);
+
+export const ReactContent = vstruct([
+  { name: 'type', type: vstruct.UInt8 },
+  { name: 'reaction', type: vstruct.UInt8 },
+]);
+
 export function encode(tx) {
   let params, operation;
   if (tx.version !== 1) {
     throw Error('Wrong version');
   }
-  console.log(tx.operation)
   switch (tx.operation) {
     case 'create_account':
       params = CreateAccountParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 1;
       break;
@@ -72,7 +84,7 @@ export function encode(tx) {
     case 'payment':
       params = PaymentParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 2;
       break;
@@ -87,13 +99,21 @@ export function encode(tx) {
       operation = 4;
       break;
 
+    case 'interact':
+      params = InteractParams.encode({
+        ...tx.params,
+        object: Buffer.from(tx.params.object, 'hex'),
+      });
+      operation = 5;
+      break;
+
     default:
       throw Error('Unspport operation');
   }
 
   return Transaction.encode({
     version: 1,
-    account: base32.decode(tx.account),
+    account: Buffer.from(base32.decode(tx.account)),
     sequence: tx.sequence,
     memo: tx.memo,
     operation,

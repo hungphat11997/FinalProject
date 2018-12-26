@@ -5,16 +5,16 @@ import Following from './components/Following';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import EditProfile from './components/EditProfile';
 import Login from './components/Login';
-
+import Newfeed from './components/Newfeed';
 class App extends Component {
   render() {
     return (
       <Router>
     <div className="App">
-        <Route path="/" exact component={HomePage} />
+        <Route path="/" exact component={Newfeed} />
+        <Route path="/home" exact component={HomePage} />
         <Route path="/login" exact component={Login} />
         <Route path="/following" component={Following} />
-        {/* <Route path="/followers" component={Followers} /> */}
         <Route path="/editprofile" component={EditProfile} />        
     </div>
   </Router>

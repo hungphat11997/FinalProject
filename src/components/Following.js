@@ -25,6 +25,12 @@ import { updateFollowKeyPic } from '../actions/updateFollowKeyPic';
 import { updateFollowNewsfeed } from '../actions/updateFollowNewsfeed';
 import { updatePostName } from '../actions/updatePostName';
 import { updatePostPic } from '../actions/updatePostPic';
+import { updateFollowNewsfeedHeight } from '../actions/updateFollowNewsfeedHeight';
+import { updatePostHeight } from '../actions/updatePostHeight';
+import { updateFollowNewsfeedKey } from '../actions/updateFollowNewsfeedKey';
+import { updatePostKey } from '../actions/updatePostKey';
+import { updateReadyToLogin } from '../actions/updateReadyToLogin';
+import { updateMyNewfeedHeight } from '../actions/updateMyNewfeedHeight';
 class Following extends Component {
   componentDidMount() {
     var data = {
@@ -98,7 +104,6 @@ class Following extends Component {
   }
   var data = {
     pbk: this.props.pbkey,
-    sck: this.props.sckey,
     followings: arr,
   }
   fetch(`/updatefollowing`, {method: "POST", body: JSON.stringify(data),
@@ -115,6 +120,7 @@ class Following extends Component {
     var txHash = '0x' + encode(tx).toString('hex')
     fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash).then(res => res.json())
     this.props.onUpdateFollowKey(arr);
+    this.newsfeedOfPublicKey(this.props.followkey);
     this.nameOfPublicKey(arr);
     this.picOfPublicKey(arr);
     this.props.onUpdateProfile({name: this.props.profile.name, seq: this.props.profile.seq + 1, balance: this.props.profile.balance});
@@ -145,7 +151,6 @@ class Following extends Component {
               arr.push(key.pbk);
               var data = {
                 pbk: this.props.pbkey,
-                sck: this.props.sckey,
                 followings: arr,
               }
               fetch(`/updatefollowing`, {method: "POST", body: JSON.stringify(data),
@@ -162,6 +167,7 @@ class Following extends Component {
                 var txHash = '0x' + encode(tx).toString('hex')
                 fetch("https://komodo.forest.network/broadcast_tx_commit?tx=" + txHash).then(res => res.json())
                 this.props.onUpdateFollowKey(arr);
+                this.newsfeedOfPublicKey(this.props.followkey);
                 this.nameOfPublicKey(arr);
                 this.picOfPublicKey(arr);
                 alert("Follow success!");
@@ -173,9 +179,96 @@ class Following extends Component {
         }
 
   }
+
+  newsfeedOfPublicKey = async (followkey) => {
+    console.log(followkey.length)
+    var newsarr = [];
+    var newsheightarr = [];
+    var namearr = [];
+    var picarr = [];
+    
+    for(let i = 0; i < followkey.length; i++){
+      
+      var data = {
+        pbk: followkey[i],
+      }
+        //name
+    const resName = await fetch(`/data`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}).then(res => res.json())
+    const name = await resName.name;
+    
+       //pic
+       const resPic = await fetch(`/picture`, {method: "POST", body: JSON.stringify(data),
+       headers: {
+         "Content-Type": "application/json"
+       },
+       credentials: "same-origin"}).then(res => res.json())
+       const pic = await resPic.picture;
+        //newsfeed
+    const resNews = await fetch(`/mynewfeed`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}).then(res => res.json())
+    const newsfeed = await resNews.newfeed;
+
+    //newsfeedheight
+    const resNewsheight = await fetch(`/mynewfeedheight`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}).then(res => res.json())
+    const newsfeedheight = await resNewsheight.newfeedheight;
+
+    var arrName = [];
+    var arrPic = [];
+  for (let j = 0; j < newsfeed.length; j++) {
+    arrName.push(name);
+    arrPic.push(pic);
+  }
+  namearr = namearr.concat(arrName);
+  picarr = picarr.concat(arrPic);
+  newsarr = newsarr.concat(newsfeed);
+  newsheightarr = newsheightarr.concat(newsfeedheight);
+  }
+
+  for(let i = 0; i < newsarr.length - 1; i++) {
+    //console.log("hi")
+    for(let j = i + 1; j < newsarr.length; j++) {
+      if(parseInt(newsheightarr[i], 10) > parseInt(newsheightarr[j], 10)){
+        var temp1 = newsheightarr[i];
+        newsheightarr[i] = newsheightarr[j];
+        newsheightarr[j] = temp1;
+
+        var temp2 = newsarr[i];
+        newsarr[i] = newsarr[j];
+        newsarr[j] = temp2;
+
+        var temp3 = namearr[i];
+        namearr[i] = namearr[j];
+        namearr[j] = temp3;
+
+        var temp4 = picarr[i];
+        picarr[i] = picarr[j];
+        picarr[j] = temp4;
+      }
+    }
+    
+  }
+ 
+  this.props.onUpdateFollowNewsfeed({
+    name: namearr,
+    pic: picarr,
+    news: newsarr
+  })
+  }
+
   render() {
     console.log(this.props.followkeypic)
-    const followList = Object.keys(this.props.followkeyname.followkeyname).map((i) => (
+    const followList = Object.keys(this.props.followkey).map((i) => (
       <div>
       <li class="list-li post-content">
      <Row className="show-grid" >
@@ -221,6 +314,8 @@ console.log(this.props.followkeyname)
       profilepicture = {this.props.profilepicture} 
       component = {this.props.component}
       tab = {this.props.tab}
+      postCount = {this.props.mynewfeed.newfeed.length}
+      followCount = {this.props.followkey.length}
       onUpdateSCKey = {this.props.onUpdateSCKey} 
       onUpdatePBKey = {this.props.onUpdatePBKey} 
       onUpdateTab = {this.props.onUpdateTab} 
@@ -228,16 +323,22 @@ console.log(this.props.followkeyname)
       onUpdateFollowKeyName = {this.props.onUpdateFollowKeyName} 
       onUpdateFollowKeyPic = {this.props.onUpdateFollowKeyPic} 
       onUpdateFollowKey = {this.props.onUpdateFollowKey} 
-      onUpdateFollowNewsfeed = {this.props.onUpdateFollowNewsfeed} 
-      onUpdateMyNewfeed = {this.props.onUpdateMyNewfeed} 
+      onUpdateFollowNewsfeed = {this.props.onUpdateFollowNewsfeed}
+      onUpdateFollowNewsfeedKey = {this.props.onUpdateFollowNewsfeedKey}
+      onUpdateFollowNewsfeedHeight = {this.props.onUpdateFollowNewsfeedHeight}
+      onUpdateMyNewfeed = {this.props.onUpdateMyNewfeed}
+      onUpdateMyNewfeedHeight = {this.props.onUpdateMyNewfeedHeight}  
       onUpdatePaymentHistory = {this.props.onUpdatePaymentHistory} 
       onUpdatePaymentUserList = {this.props.onUpdatePaymentUserList} 
       onUpdatePaymentUser = {this.props.onUpdatePaymentUser} 
       onUpdatePostName = {this.props.onUpdatePostName} 
       onUpdatePostPic = {this.props.onUpdatePostPic} 
       onUpdatePost = {this.props.onUpdatePost} 
+      onUpdatePostKey = {this.props.onUpdatePostKey} 
+      onUpdatePostHeight = {this.props.onUpdatePostHeight} 
       onUpdateProfilePicture = {this.props.onUpdateProfilePicture} 
       onUpdateProfile = {this.props.onUpdateProfile} 
+      onUpdateReadyToLogin = {this.props.onUpdateReadyToLogin}
       />
 
             <Col xs={6} md={3}>
@@ -303,6 +404,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdatePBKey: updatePBKey,
     onUpdateProfile: updateProfile,
     onUpdateMyNewfeed: updateMyNewfeed,
+    onUpdateMyNewfeedHeight: updateMyNewfeedHeight,
     onUpdatePaymentHistory: updatePaymentHistory,
     onUpdatePaymentUser: updatePaymentUser,
     onUpdatePaymentUserList: updatePaymentUserList,
@@ -314,6 +416,11 @@ const mapDispatchToProps = (dispatch) => {
     onUpdatePost: updatePost,
     onUpdatePostName: updatePostName,
     onUpdatePostPic: updatePostPic,
+    onUpdateFollowNewsfeedHeight: updateFollowNewsfeedHeight,
+    onUpdatePostHeight: updatePostHeight,
+    onUpdateFollowNewsfeedKey: updateFollowNewsfeedKey,
+    onUpdatePostKey: updatePostKey,
+    onUpdateReadyToLogin: updateReadyToLogin,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Following);
