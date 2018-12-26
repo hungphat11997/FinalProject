@@ -8,7 +8,6 @@ const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
 var fs = require('fs');
 let axios = require('axios');
-var b64toBlob = require('b64-to-blob');
 //var Buffer = require('buffer/').Buffer;
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });

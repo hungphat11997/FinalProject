@@ -206,11 +206,10 @@ body {
 }
 
 .follow-li{
-  background-color: white;
-  padding: 5px;
-  list-style: none;
-  margin-left: -10px;
-  height: 150px;
+  background-color:white;
+  height: 300px;
+  margin-bottom: 15px;
+  margin-right: -15px;
 }
 .cover-div-small {
   width: 100%;
@@ -224,11 +223,11 @@ body {
   border:  5px solid rgb(255, 255, 255);
   border-radius: 50%;
   cursor: pointer;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 .button-follow{
-  margin: 40px;
+  margin: 10px;
   background-color: white;
   color: black;
   border: 2px solid rgb(87, 146, 161);
@@ -245,16 +244,15 @@ body {
   cursor: pointer;
 }
 .follow-name{
-
   padding-top: 20px;
   margin-left: 25px;
-
   min-width: max-content
 }
 
 .follow-name a{
   font-size: 18px;
   font-weight: bold;
+  padding-right: 2px;
   color: black;
   cursor: pointer;
 }
