@@ -63,17 +63,21 @@ const InteractParams = vstruct([
   // React if '', like, love, haha, anrgy, sad, wow
 ]);
 
+const ReactContent = vstruct([
+  { name: 'type', type: vstruct.UInt8 },
+  { name: 'reaction', type: vstruct.UInt8 },
+]);
+
 function encode(tx) {
   let params, operation;
   if (tx.version !== 1) {
     throw Error('Wrong version');
   }
-  console.log(tx.operation)
   switch (tx.operation) {
     case 'create_account':
       params = CreateAccountParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 1;
       break;
@@ -81,7 +85,7 @@ function encode(tx) {
     case 'payment':
       params = PaymentParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 2;
       break;
@@ -96,13 +100,21 @@ function encode(tx) {
       operation = 4;
       break;
 
+    case 'interact':
+      params = InteractParams.encode({
+        ...tx.params,
+        object: Buffer.from(tx.params.object, 'hex'),
+      });
+      operation = 5;
+      break;
+
     default:
       throw Error('Unspport operation');
   }
 
   return Transaction.encode({
     version: 1,
-    account: base32.decode(tx.account),
+    account: Buffer.from(base32.decode(tx.account)),
     sequence: tx.sequence,
     memo: tx.memo,
     operation,
@@ -110,7 +122,6 @@ function encode(tx) {
     signature: tx.signature,
   });
 }
-
 
 function decode(data) {
   const tx = Transaction.decode(data);
@@ -141,6 +152,12 @@ function decode(data) {
     case 4:
       operation = 'update_account';
       params = UpdateAccountParams.decode(tx.params);
+      break;
+    
+    case 5:
+      operation = 'interact';
+      params = InteractParams.decode(tx.params);
+      params.object = params.object.toString('hex').toUpperCase();
       break;
     
     default:
@@ -200,4 +217,4 @@ function base64_decode(base64str, file) {
   fs.writeFileSync(file, bitmap);
   console.log('******** File created from base64 encoded string ********');
 }
-module.exports = { encode, decode, Transaction, PlainTextContent, PostParams, Followings, sign, hash, verify, base64_encode, base64_decode };
+module.exports = { encode, decode, Transaction, PlainTextContent, ReactContent, PostParams, Followings, sign, hash, verify, base64_encode, base64_decode };

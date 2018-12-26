@@ -19,9 +19,9 @@ router.get('/', function(req, res, next) {
 router.post(`/data`, function(req, res, next) {
 
   var data = req.body;
+  var name = "";
   var seq = 0;
   var balance = 0;
-  var name = "";
   
   fetch(
     `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
@@ -122,9 +122,24 @@ router.post(`/mynewfeed`, function(req, res, next) {
           newfeed.push(v1.PlainTextContent.decode(decodedTx.params.content).text);
         }
         catch(err){
-          
+        } 
+      }
+      if (decodedTx.operation === "update_account") {
+        if(decodedTx.params.key === "name") {
+          try {
+            newfeed.push(`update name to ${decodedTx.params.value.toString('utf8')}`);
+          }
+          catch(err){
+          } 
         }
-        
+        if(decodedTx.params.key === "picture") {
+          try {
+            Buffer.from(decodedTx.params.value, 'binary').toString('base64');
+            newfeed.push(`update profile picture`);
+          }
+          catch(err){
+          } 
+        }
       }
       if (decodedTx.operation === "create_account") {
         if(decodedTx.account === data.pbk)
@@ -134,6 +149,55 @@ router.post(`/mynewfeed`, function(req, res, next) {
   })
   .then(() => {
     res.send({newfeed: newfeed});
+  })
+});
+
+router.post(`/mynewfeedheight`, function(req, res, next) {
+
+  var data = req.body;
+  var newfeedheight = [];
+  fetch(
+    `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
+  )
+  .then((res) => res.json())
+  .then((res) => {
+    res.result.txs.map(tx => {
+      var buf = Buffer.from(tx.tx, "base64");
+      var decodedTx = v1.decode(buf);
+      if (decodedTx.operation === "post") {
+        try {
+          v1.PlainTextContent.decode(decodedTx.params.content);
+          newfeedheight.push(tx.height);
+        }
+        catch(err){
+        } 
+      }
+      if (decodedTx.operation === "update_account") {
+        if(decodedTx.params.key === "name") {
+          try {
+            decodedTx.params.value.toString('utf8');
+            newfeedheight.push(tx.height);
+          }
+          catch(err){
+          } 
+        }
+        if(decodedTx.params.key === "picture") {
+          try {
+            Buffer.from(decodedTx.params.value, 'binary').toString('base64');
+            newfeedheight.push(tx.height);
+          }
+          catch(err){
+          } 
+        }
+      }
+      if (decodedTx.operation === "create_account") {
+        if(decodedTx.account === data.pbk)
+        newfeedheight.push(tx.height);
+      }
+    })
+  })
+  .then(() => {
+    res.send({newfeedheight: newfeedheight});
   })
 });
 
@@ -365,7 +429,7 @@ var x = v1.PlainTextContent.encode(plain)
     router.get('/updatepicture', function(req, res, next) {
 
       //var data = req.body;
-      var pbk = "GBAZVE7HITKLHDLBSP6TTHS3YQ4V26NODNYZFEIEIM72OBJ7PGMCQKKR";
+      var pbk = "";
       var seq = 0;
     const tx = {
       version: 1,
@@ -396,12 +460,11 @@ var x = v1.PlainTextContent.encode(plain)
           //console.log(data.file)
 
           //v1.base64_decode(data.file, 'copy.jpg');
-          fs.readFile('Desert.jpg', function(err, original_data){
-            
+          fs.readFile('hh.jpg', function(err, original_data){
             //console.log(original_data);
-            tx.params.value = Buffer.from(original_data);//Buffer.from(original_data);
+            tx.params.value = Buffer.from(original_data);
             //console.log(tx.params.value);
-            v1.sign(tx, "SBGZ5OSTDSA6FJEF7GB4MB2GQVL4WOHVKDSPY3ODCFOALPEPIFCOETMF");
+            v1.sign(tx, "");
         var txHash =  v1.encode(tx).toString('base64')
         axios.post('https://komodo.forest.network/', {
     "jsonrpc": "2.0",
@@ -458,5 +521,169 @@ var x = v1.PlainTextContent.encode(plain)
           res.send(tx);
         })
         });
+        router.post(`/hash`, function(req, res, next) {
+          var data = req.body;
+          var hash = "";
+          var seq = 0;
+          
+          fetch(
+            `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
+          )
+          .then((res) => res.json())
+          .then((res) => {
+            res.result.txs.map(tx => {
+              try{
+              var buf = new Buffer.from(tx.tx, "base64");
+              var decodedTx = v1.decode(buf);
+              if (tx.height === data.height) {
+                hash = tx.hash;
+              }
 
+            }
+            catch(err) {
+        
+            }
+            })
+          })
+          .then(() => {
+            res.send({hash: hash});
+          })
+        });
+
+        router.post('/comment', function(req, res, next) {
+
+          var data = req.body;
+          //var height = 23399;
+          var seq = 0;
+        const tx = {
+          version: 1,
+          account: data.pbk,
+          sequence: 0,
+          memo: Buffer.alloc(0),
+          operation: 'interact',
+          params: { 
+            object: Buffer.alloc(0),
+            content: Buffer.alloc(0),
+          },
+        }
+        fetch(
+            `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
+          )
+          .then((res) => res.json())
+          .then((res) => {
+            res.result.txs.map(tx => {
+              var buf = new Buffer.from(tx.tx, "base64");
+              var decodedTx = v1.decode(buf);
+              if (decodedTx.account === data.pbk) seq++;
+            })
+          })
+          .then(() => {
+            
+            tx.sequence = seq + 1;
+            
+            tx.params.object = data.hash;
+            var plain = {
+              type: 1,
+              text: data.comment
+            }
+            tx.params.content = v1.PlainTextContent.encode(plain);
+            res.send(tx);
+//             v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
+//         var txHash =  v1.encode(tx).toString('base64')
+//         axios.post('https://komodo.forest.network/', {
+//     "jsonrpc": "2.0",
+//     "id": 1,
+//     "method": "broadcast_tx_commit",
+//     "params": [`${txHash}`]
+// })
+//     .then(res => console.log(res.data))
+          })
+          
+          });
+
+
+          router.get('/react', function(req, res, next) {
+
+            //var data = req.body;
+            var height = 23399;
+            var seq = 0;
+          const tx = {
+            version: 1,
+            account: "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S",
+            sequence: 0,
+            memo: Buffer.alloc(0),
+            operation: 'interact',
+            params: { 
+              object: Buffer.alloc(0),
+              content: Buffer.alloc(0),
+            },
+          }
+          fetch(
+              `https://komodo.forest.network/tx_search?query=%22account=%27${tx.account}%27%22&&per_page=100`
+            )
+            .then((res) => res.json())
+            .then((res) => {
+              res.result.txs.map(tx => {
+                var buf = new Buffer.from(tx.tx, "base64");
+                var decodedTx = v1.decode(buf);
+                if (decodedTx.account === "GCDSJYGKWF5FGLHXWB6VEYIM2UMHVYQJRFDKOEJBADCFN3W5KFSQFJ6S") seq++;
+              })
+            })
+            .then(() => {
+              
+              tx.sequence = seq + 1;
+              
+              tx.params.object = "44770718EF24C502C33EE3378ADA5B53496AAEB6049FC316D5223BA9FFC08209";
+              var react = {
+                type: 2,
+                reaction: 4
+              }
+              tx.params.content = v1.ReactContent.encode(react);
+              
+              v1.sign(tx, "SBTT5VPXUEHKIRUA7UX2RCURRXLTGXZP2PRHHFEPZDBF2QNKZAIVNDD5");
+          var txHash =  v1.encode(tx).toString('base64')
+          axios.post('https://komodo.forest.network/', {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "broadcast_tx_commit",
+      "params": [`${txHash}`]
+  })
+      .then(res => console.log(res.data))
+            })
+            res.send("");
+            });
+
+  router.post(`/interact`, function(req, res, next) {
+
+    //var data = req.body;
+    var followkey = [];
+    fetch(
+      `https://komodo.forest.network/tx_search?query=%22account=%27${data.pbk}%27%22&&per_page=100`
+    )
+    .then((res) => res.json())
+    .then((res) => {
+      res.result.txs.map(tx => {
+        var buf = new Buffer.from(tx.tx, "base64");
+        var decodedTx = v1.decode(buf);
+        
+        if (decodedTx.operation === "update_account") {
+          if(decodedTx.params.key === "followings") {
+            //
+            try{
+              followkey = v1.Followings.decode(decodedTx.params.value).addresses;
+            }
+            catch(err) {
+  
+            }
+          }
+        }
+      })
+    })
+    .then(() => {
+      for(let i = 0; i < followkey.length; i++) {
+        followkey[i] = base32.encode(followkey[i])
+      }
+      res.send({followkey: followkey});
+    })
+  });
   module.exports = router;
