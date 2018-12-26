@@ -1,3 +1,4 @@
+
 const vstruct = require('varstruct');
 const base32 = require('base32.js');
 const { Keypair } = require('stellar-base');
