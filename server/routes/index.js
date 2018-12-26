@@ -8,7 +8,6 @@ const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
 var fs = require('fs');
 let axios = require('axios');
-var b64toBlob = require('b64-to-blob');
 //var Buffer = require('buffer/').Buffer;
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -210,10 +209,11 @@ router.post(`/paymenthistory`, function(req, res, next) {
   )
   .then((res) => res.json())
   .then((res) => {
-    res.result.txs.map(tx => {
-      var buf = new Buffer.from(tx.tx, "base64");
+    var max = res.result.total_count;
+    var count = 0;
+     for(let i = max -1 ; i >= 0; i--) {
+      var buf = new Buffer.from(res.result.txs[i].tx, "base64");
       var decodedTx = v1.decode(buf);
-     
       if (decodedTx.operation === "payment") {
         if(decodedTx.account === data.pbk) {
           paymenthistory.push(`Send ${decodedTx.params.amount} CEL to `);
@@ -221,8 +221,10 @@ router.post(`/paymenthistory`, function(req, res, next) {
         else {
           paymenthistory.push(`Receive ${decodedTx.params.amount} CEL from `);
         }
+        count++;
       }
-    })
+      if(count === 10) break;
+     }
   })
   .then(() => {
     res.send({payHis: paymenthistory});
@@ -238,10 +240,11 @@ router.post(`/paymentuser`, function(req, res, next) {
   )
   .then((res) => res.json())
   .then((res) => {
-    res.result.txs.map(tx => {
-      var buf = new Buffer.from(tx.tx, "base64");
+    var max = res.result.total_count;
+    var count = 0;
+     for(let i = max -1 ; i >= 0; i--) {
+      var buf = new Buffer.from(res.result.txs[i].tx, "base64");
       var decodedTx = v1.decode(buf);
-     
       if (decodedTx.operation === "payment") {
         if(decodedTx.account === data.pbk) {
           paymentuser.push(`${decodedTx.params.address}`);
@@ -249,8 +252,10 @@ router.post(`/paymentuser`, function(req, res, next) {
         else {
           paymentuser.push(`${decodedTx.account}`);
         }
+        count++;
       }
-    })
+      if(count === 10) break;
+     }
   })
   .then(() => {
     res.send({payUser: paymentuser});
