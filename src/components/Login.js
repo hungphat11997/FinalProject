@@ -21,10 +21,33 @@ import { Redirect } from 'react-router-dom';
 import { updatePBKey } from '../actions/updatePBKey';
 import { updateFollowKey } from '../actions/updateFollowKey';
 import LoadingScreen from 'react-loading-screen';
+import { updateReadyToLogin } from '../actions/updateReadyToLogin';
+import { updatePaymentUser } from '../actions/updatePaymentUser';
+import { updatePaymentUserList } from '../actions/updatePaymentUserList';
+import { updateProfilePicture } from '../actions/updateProfilePicture';
 const fetch = require('node-fetch');
 const { Keypair } = require('stellar-base');
 class Login extends React.Component {
 
+  nameOfPublicKey = async (payUser) => {
+    //console.log(pbk)
+    var arr = [];
+    for(let i = 0;i < payUser.length; i++){
+      var data = {
+        pbk: payUser[i],
+      }
+      //profile
+    const response = await fetch(`/data`, {method: "POST", body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"}).then(res => res.json())
+    const json = await response.name;
+    arr.push(json);
+    
+  }
+  this.props.onUpdatePaymentUserList({payUserList: arr})
+  }
 
     onLogin = () => {
       var value = document.getElementById('login').value;
@@ -44,12 +67,38 @@ class Login extends React.Component {
               .then((res) => res.json())
               .then((res) => {if(res.isValid === false)
                 alert("Key invalid!"); else {
-                  //console.log(value)
-                  //console.log(pbk)
-                       //following key
+                  this.props.onUpdateSCKey(value);
+                  this.props.onUpdatePBKey(pbk);
                 }})
-            this.props.onUpdateSCKey(value);
-            this.props.onUpdatePBKey(pbk);
+                .then(() => {
+                  var data = {
+                    pbk: this.props.pbkey,
+                  }
+                  //paymentuser
+                  fetch(`/paymentuser`, {method: "POST", body: JSON.stringify(data),
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  credentials: "same-origin"})
+                    .then((res) => res.json())
+                    .then(res => this.props.onUpdatePaymentUser({payUser: res.payUser}))
+                    .then(() => this.nameOfPublicKey(this.props.paymentuser.payUser))
+                    .then(() => {
+                      var data = {
+                        pbk: this.props.pbkey,
+                      }
+                         //profilepicture
+                         fetch(`/picture`, {method: "POST", body: JSON.stringify(data),
+                         headers: {
+                           "Content-Type": "application/json"
+                         },
+                         credentials: "same-origin"})
+                           .then((res) => res.json())
+                            .then(res => this.props.onUpdateProfilePicture("data:image/png;base64, " + res.picture));
+                    })
+                    .then(() => this.props.onUpdateReadyToLogin(!this.props.readytologin))
+                })
+            
             
               
           }
@@ -59,9 +108,13 @@ class Login extends React.Component {
     }
 
     render() {
+//       const key = Keypair.random();
+// console.log(key.secret());
+// console.log(key.publicKey());
+
       //console.log(this.props.followkey)
         return(
-            this.props.sckey !== null && this.props.pbkey !== null ? 
+            this.props.readytologin !== false ? 
             <Redirect to="/"></Redirect> :
             <div>
               <Row>
@@ -88,6 +141,8 @@ const mapStateToProps = (state) => {
       sckey: state.sckey,
       pbkey: state.pbkey,
       followkey: state.followkey,
+      paymentuser: state.paymentuser,
+      readytologin: state.readytologin,
     }
   }
   
@@ -95,7 +150,11 @@ const mapStateToProps = (state) => {
     return bindActionCreators({
       onUpdateSCKey: updateSCKey,
       onUpdatePBKey: updatePBKey,
+      onUpdateProfilePicture: updateProfilePicture,
+      onUpdatePaymentUser: updatePaymentUser,
+      onUpdatePaymentUserList: updatePaymentUserList,
       onUpdateFollowKey: updateFollowKey,
+      onUpdateReadyToLogin: updateReadyToLogin,
     }, dispatch);
   }
   export default connect(mapStateToProps, mapDispatchToProps)(Login);

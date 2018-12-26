@@ -20,16 +20,22 @@ logout = () => {
         news: []
     }
     this.props.onUpdateFollowNewsfeed(initState);
+    this.props.onUpdateFollowNewsfeedHeight({newsfeedheight: []});
+    this.props.onUpdateFollowNewsfeedKey({newsfeedkey: []});
     this.props.onUpdateMyNewfeed({newfeed: []});
+    this.props.onUpdateMyNewfeedHeight({newfeedheight: []});
     this.props.onUpdatePaymentHistory({payHis: []});
     this.props.onUpdatePaymentUserList({payUserList: []});
     this.props.onUpdatePaymentUser({payUser: []});
     this.props.onUpdatePostName("");
     this.props.onUpdatePostPic("");
     this.props.onUpdatePost("");
+    this.props.onUpdatePostHeight(null);
+    this.props.onUpdatePostKey("");
     this.props.onUpdateProfilePicture("");
     this.props.onUpdateProfile({name: "", seq: 0, balance: 0});
     this.props.onUpdateTab("post");
+    this.props.onUpdateReadyToLogin(false);
     this.props.onUpdateSCKey(null);
     this.props.onUpdatePBKey(null);
 }

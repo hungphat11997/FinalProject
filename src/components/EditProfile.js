@@ -39,6 +39,12 @@ import { updateFollowNewsfeed } from '../actions/updateFollowNewsfeed';
 import { updatePostName } from '../actions/updatePostName';
 import { updatePostPic } from '../actions/updatePostPic';
 import { sign, encode, Transaction } from '../v1';
+import { updateFollowNewsfeedHeight } from '../actions/updateFollowNewsfeedHeight';
+import { updatePostHeight } from '../actions/updatePostHeight';
+import { updateFollowNewsfeedKey } from '../actions/updateFollowNewsfeedKey';
+import { updatePostKey } from '../actions/updatePostKey';
+import { updateReadyToLogin } from '../actions/updateReadyToLogin';
+import { updateMyNewfeedHeight } from '../actions/updateMyNewfeedHeight';
 var fs = require('fs').fs;
 let axios = require('axios');
 
@@ -148,7 +154,7 @@ onImageChange(event) {
         
           
           this.props.onUpdateImageInput(e.target.result)
-          //console.log("data:" +this.props.imageinput)
+          console.log("data:" +this.props.imageinput)
           
       };
       reader.readAsDataURL(event.target.files[0]);
@@ -181,6 +187,7 @@ onImageChange(event) {
       component = {this.props.component}
       tab = {this.props.tab}
       postCount = {this.props.mynewfeed.newfeed.length}
+      followCount = {this.props.followkey.length}
       onUpdateSCKey = {this.props.onUpdateSCKey} 
       onUpdatePBKey = {this.props.onUpdatePBKey} 
       onUpdateTab = {this.props.onUpdateTab} 
@@ -188,16 +195,22 @@ onImageChange(event) {
       onUpdateFollowKeyName = {this.props.onUpdateFollowKeyName} 
       onUpdateFollowKeyPic = {this.props.onUpdateFollowKeyPic} 
       onUpdateFollowKey = {this.props.onUpdateFollowKey} 
-      onUpdateFollowNewsfeed = {this.props.onUpdateFollowNewsfeed} 
-      onUpdateMyNewfeed = {this.props.onUpdateMyNewfeed} 
+      onUpdateFollowNewsfeed = {this.props.onUpdateFollowNewsfeed}
+      onUpdateFollowNewsfeedKey = {this.props.onUpdateFollowNewsfeedKey}
+      onUpdateFollowNewsfeedHeight = {this.props.onUpdateFollowNewsfeedHeight}
+      onUpdateMyNewfeed = {this.props.onUpdateMyNewfeed}
+      onUpdateMyNewfeedHeight = {this.props.onUpdateMyNewfeedHeight}  
       onUpdatePaymentHistory = {this.props.onUpdatePaymentHistory} 
       onUpdatePaymentUserList = {this.props.onUpdatePaymentUserList} 
       onUpdatePaymentUser = {this.props.onUpdatePaymentUser} 
       onUpdatePostName = {this.props.onUpdatePostName} 
       onUpdatePostPic = {this.props.onUpdatePostPic} 
       onUpdatePost = {this.props.onUpdatePost} 
+      onUpdatePostKey = {this.props.onUpdatePostKey} 
+      onUpdatePostHeight = {this.props.onUpdatePostHeight} 
       onUpdateProfilePicture = {this.props.onUpdateProfilePicture} 
       onUpdateProfile = {this.props.onUpdateProfile} 
+      onUpdateReadyToLogin = {this.props.onUpdateReadyToLogin} 
       />
                 <Col xs={6} md={3}>
                 <Row className="show-grid">
@@ -267,6 +280,7 @@ const mapStateToProps = (state) => {
     pbkey: state.pbkey,
     profile: state.profile,
   mynewfeed: state.mynewfeed,
+  followkey: state.followkey,
   imageinput: state.imageinput,
   profilepicture: state.profilepicture,
   }
@@ -282,6 +296,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateImageInput: updateImageInput,
     onUpdatePBKey: updatePBKey,
     onUpdateMyNewfeed: updateMyNewfeed,
+    onUpdateMyNewfeedHeight: updateMyNewfeedHeight,
     onUpdatePaymentHistory: updatePaymentHistory,
     onUpdatePaymentUser: updatePaymentUser,
     onUpdatePaymentUserList: updatePaymentUserList,
@@ -293,6 +308,11 @@ const mapDispatchToProps = (dispatch) => {
     onUpdatePost: updatePost,
     onUpdatePostName: updatePostName,
     onUpdatePostPic: updatePostPic,
+    onUpdateFollowNewsfeedHeight: updateFollowNewsfeedHeight,
+    onUpdatePostHeight: updatePostHeight,
+    onUpdateFollowNewsfeedKey: updateFollowNewsfeedKey,
+    onUpdatePostKey: updatePostKey,
+    onUpdateReadyToLogin: updateReadyToLogin,
   }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
