@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "buffer": "^5.2.1",
+    "fs": "0.0.1-security",
     "node-fetch": "^2.3.0",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
@@ -16,6 +18,7 @@
     "redux": "^4.0.1",
     "redux-react-session": "^2.5.0",
     "stellar-base": "^0.10.0",
+    "tendermint": "^3.4.0",
     "varstruct": "^6.1.2"
   },
   "scripts": {

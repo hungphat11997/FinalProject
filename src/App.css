@@ -144,7 +144,7 @@ body {
   font-weight: bold;
 }
 .icon-size {
-  padding-right: 50px;
+  padding-right: 30px;
   font-size: 18px;
   cursor: pointer;
 }
@@ -234,6 +234,9 @@ body {
   border-radius: 100px;
   padding: 5px 25px;
 }
+.button-follow:hover{
+  background-color:rgb(87, 146, 161);
+}
 .ellipsis-icon{
   margin-top: 20px;
   margin-left: 20px;
@@ -241,6 +244,7 @@ body {
   cursor: pointer;
 }
 .follow-name{
+  padding-top: 20px;
   margin-left: 25px;
   min-width: max-content
 }
@@ -273,4 +277,33 @@ color: rgb(255, 255, 255);
 }
 .input-transfers {
   width: 180px;
+}
+.home-brand {
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.home-brand:hover {
+  color:  rgb(141, 204, 219);
+  cursor: pointer;
+}
+.newfeed-link {
+  cursor: pointer;
+  padding-top: 20px;
+  font-size: 16px;
+}
+.newfeed-link:hover {
+  color:  rgb(141, 204, 219);
+  cursor: pointer;
+}
+.follow-li{
+  background-color: white;
+  padding: 5px;
+  list-style: none;
+  margin-left: -10px;
+}
+.post-height {
+  font-weight: lighter;
+  font-style: italic;
+  font-size: 10pt;
+  color: rgb(175, 171, 171);
 }

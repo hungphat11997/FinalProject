@@ -19,6 +19,21 @@ import paymenthistoryReducer from './reducers/paymenthistoryReducer';
 import paymentuserReducer from './reducers/paymentuserReducer';
 import paymentuserlistReducer from './reducers/paymentuserlistReducer';
 import transfersReducer from './reducers/transfersReducer';
+import imageinputReducer from './reducers/imageinputReducer';
+import profilepictureReducer from './reducers/profilepictureReducer';
+import followkeyReducer from './reducers/followkeyReducer';
+import followkeynameReducer from './reducers/followkeynameReducer';
+import followkeypicReducer from './reducers/followkeypicReducer';
+import postReducer from './reducers/postReducer';
+import follownewsfeedReducer from './reducers/follownewsfeedReducer';
+import postnameReducer from './reducers/postnameReducer';
+import postpicReducer from './reducers/postpicReducer';
+import mynewfeedheightReducer from './reducers/mynewfeedheightReducer';
+import postheightReducer from './reducers/postheightReducer';
+import follownewsfeedheightReducer from './reducers/follownewsfeedheightReducer';
+import follownewsfeedkeyReducer from './reducers/follownewsfeedkeyReducer';
+import postkeyReducer from './reducers/postkeyReducer';
+import readytologinReducer from './reducers/readytologinReducer';
 const rootReducer = combineReducers({
     coverImage: coverImageReducer,
     tab: tabReducer,
@@ -34,6 +49,21 @@ const rootReducer = combineReducers({
     paymentuser: paymentuserReducer,
     paymentuserlist: paymentuserlistReducer,
     transfers: transfersReducer,
+    imageinput: imageinputReducer,
+    profilepicture: profilepictureReducer,
+    followkey: followkeyReducer,
+    followkeyname: followkeynameReducer,
+    followkeypic: followkeypicReducer,
+    post: postReducer,
+    follownewsfeed: follownewsfeedReducer,
+    postname: postnameReducer,
+    postpic: postpicReducer,
+    mynewfeedheight : mynewfeedheightReducer,
+    postheight: postheightReducer,
+    follownewsfeedheight: follownewsfeedheightReducer,
+    follownewsfeedkey: follownewsfeedkeyReducer,
+    postkey: postkeyReducer,
+    readytologin: readytologinReducer,
   })
 
 // Create store with reducers
